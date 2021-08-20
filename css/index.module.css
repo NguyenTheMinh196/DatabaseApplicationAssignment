@@ -1,0 +1,73 @@
+.body {
+    background-color: #BBBBBF;
+    padding: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.body .Header {
+    text-align: center;
+}
+
+.body .tool_bar .search .submit_button {
+    padding: 6px 10px;
+    margin-right: 16px;
+    background: #ddd;
+    font-size: 17px;
+    border: none;
+    cursor: pointer;
+    float: center;
+}
+
+.body .tool_bar .search .submit_button:hover {
+    background: #ccc;
+}
+
+.body .tool_bar .sort .submit_button {
+    padding: 6px 10px;
+    background: #ddd;
+    border: none;
+    cursor: pointer;
+}
+
+.body .tool_bar .sort .submit_button:hover {
+    background: #ccc;
+}
+
+.body .tool_bar .search_bar {
+    padding: 6px;
+    font-size: 17px;
+    border: none;
+    float: center;
+}
+
+.body .tool_bar .sort .get_sort {
+    padding: 6px 10px;
+    margin-right: 16px;
+}
+
+.body .tool_bar {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    margin-bottom: 10px;
+    margin-left: 10px;
+}
+
+.body .market_section {
+    display: grid;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    padding: 0px 10px 20px 10px;
+    border-top: 1px rgb(70, 69, 69) solid;
+}
+
+.body .market_section .section {
+    padding: 10px 0px 10px 0px;
+    text-align: center;
+}
+
+.body .market_section .product {
+    background: white;
+    margin-top: 5px;
+}
+
+.body .market_section .section:hover {}
