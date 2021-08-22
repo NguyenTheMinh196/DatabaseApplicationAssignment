@@ -1,0 +1,45 @@
+.transaction_container {
+  background: rgb(205, 244, 207);
+  background: linear-gradient(
+    180deg,
+    rgba(205, 244, 207, 1) 29%,
+    rgba(147, 226, 151, 1) 79%,
+    rgba(171, 246, 174, 1) 100%
+  );
+  height: 400px;
+  width: 20%;
+  margin: 100px auto;
+  padding: 40px 100px 100px 100px;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: rgb(204, 232, 221) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+
+.transaction_container h1 {
+  display: inline-block;
+  margin-bottom: 30px;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 2px;
+  color: #00ab66;
+}
+
+.transaction_container table th {
+  color: white;
+  background: #04aa6d;
+}
+.transaction_container table th,
+td {
+  padding: 10px;
+}
+/* td config*/
+.transaction_container td {
+  background-color: #fff;
+}
+.transaction_container tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.transaction_container tr:hover {
+  background-color: #ddd;
+}

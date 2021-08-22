@@ -1,0 +1,48 @@
+body {
+}
+.form_container {
+  background: rgb(205, 244, 207);
+  background: linear-gradient(
+    180deg,
+    rgba(205, 244, 207, 1) 29%,
+    rgba(147, 226, 151, 1) 79%,
+    rgba(171, 246, 174, 1) 100%
+  );
+  height: 400px;
+  width: 20%;
+  margin: 100px auto;
+  padding: 40px 100px 100px 100px;
+  border-radius: 20px;
+  background-color: #fff;
+  box-shadow: rgb(204, 232, 221) 3px 3px 6px 0px inset,
+    rgba(255, 255, 255, 0.5) -3px -3px 6px 1px inset;
+}
+.form_container .form_fields {
+}
+.form_container .form_fields h1 {
+  display: inline-block;
+  margin-bottom: 30px;
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: 2px;
+  color: #00ab66;
+}
+.form_container .form_fields h2 {
+  margin: 20px 0px 5px 2px;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: #00ab66;
+  letter-spacing: 2px;
+}
+.form_container .form_fields input {
+  border: 0;
+  border-bottom: 1px solid #3fb6a8;
+  width: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-size: 0.8rem;
+  padding: 7px 0;
+  font-weight: bold;
+  outline: none;
+  padding-left: 5px;
+}
+.subtitle {
+}
