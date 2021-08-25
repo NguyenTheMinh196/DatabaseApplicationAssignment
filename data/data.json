@@ -1,0 +1,54 @@
+{
+    "_id": 1,
+    "name": "rolex",
+    "seller_id": 2147483647,
+    "buyer_id": 12341245,
+    "openingDate": {
+        "$date": "2011-07-28T00:00:00.000Z"
+    },
+    "closingDate": {
+        "$date": "2021-07-28T00:00:00.000Z"
+    },
+    "openingprice": 100000000,
+    "closingprice": 154000000,
+    "status": "closed"
+} {
+    "_id": 2,
+    "name": "Drone",
+    "seller_id": 2147483647,
+    "openingDate": {
+        "$date": "2011-07-28T00:00:00.000Z"
+    },
+    "closingDate": {
+        "$date": "2021-09-28T00:00:00.000Z"
+    },
+    "openingprice": 5000000,
+    "minimumprice": 12000000,
+    "status": "open"
+} {
+    "_id": 3,
+    "name": "Honeypot",
+    "seller_id": 12341245,
+    "openingDate": {
+        "$date": "2011-07-28T00:00:00.000Z"
+    },
+    "closingDate": {
+        "$date": "2021-09-28T00:00:00.000Z"
+    },
+    "openingprice": 150000,
+    "minimumprice": 320000,
+    "status": "open"
+} {
+    "_id": 4,
+    "name": "iphone",
+    "sellerid": 2147483647,
+    "openingDate": {
+        "$date": "2011-07-28T00:00:00.000Z"
+    },
+    "closingDate": {
+        "$date": "2021-08-23T00:00:00.000Z"
+    },
+    "openingprice": 100000000,
+    "closingprice": 154000000,
+    "status": "closed"
+}
