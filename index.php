@@ -167,3 +167,60 @@
     <!-- end footer -->
 </body>
 </html>
+
+
+// } {
+//     "_id": 2,
+//     "name": "Drone",
+//     "seller_id": 2147483647,
+//     "openingDate": {
+//         "$date": "2011-08-26T11:22:33.111Z"
+//     },
+//     "closingDate": {
+//         "$date": "2021-08-26T11:22:33.111Z"
+//     },
+//     "openingprice": 5000000,
+//     "minimumprice": 12000000,
+//     "status": "open"
+// } {
+//     "_id": 3,
+//     "name": "Honeypot",
+//     "seller_id": 12341245,
+//     "openingDate": {
+//         "$date": "2011-08-26T11:22:33.111Z"
+//     },
+//     "closingDate": {
+//         "$date": "2021-08-26T11:22:33.111Z"
+//     },
+//     "openingprice": 150000,
+//     "minimumprice": 320000,
+//     "status": "open"
+// } {
+//     "_id": 4,
+//     "name": "iphone",
+//     "sellerid": 2147483647,
+//     "openingDate": {
+//         "$date": "2011-08-26T11:22:33.111Z"
+//     },
+//     "closingDate": {
+//         "$date": "2021-08-23T11:22:33.111Z"
+//     },
+//     "openingprice": 100000000,
+//     "closingprice": 154000000,
+//     "status": "closed"
+// }
+// {
+//     "_id": 1,
+//     "name": "rolex",
+//     "seller_id": 2147483647,
+//     "buyer_id": 12341245,
+//     "openingprice": 100000000,
+//     "openingDate": {
+//         "$date": "2011-08-26T11:22:33.111Z"
+//     },
+//     "closingDate": {
+//         "$date": "2021-08-23T11:22:33.111Z"
+//     },
+//     "closingprice": 154000000,
+//     "status": "closed"
+// }

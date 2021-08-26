@@ -15,6 +15,7 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="../css/style.css" />
     <!--font links-->
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -27,13 +28,13 @@
     <div class="form_container">
       <div class="form_fields">
         <h1>Personal Information</h1>
-
+        <div  style = "text-align: left;"> <img src = "../img/avatar-1.jpg" alt = "avatar" class = "profile_pic" ></div>
         <h2>Full Name:</h2>
-        <input type="text" class="input" value="Jeff leeroy" />
+        <p> Name</p>
         <h2>Password:</h2>
-        <input type="text" class="input" value="12345" />
+        <p> password</p>
         <h2>Address:</h2>
-        <input type="text" class="input" value="blank" />
+        <p>address</p>
       </div>
     </div>
   </body>
