@@ -30,7 +30,7 @@
     </div>
     <!-- sell the product part -->
     <div>
-        <form>
+        <form action="sell.php" method="post">
             <h1 style = "text-align: center"> Sell product</h1>
             <label for = "product_name">Product Name:</label>
             <input type = "text" name = "product_name" value = "Name" id = "product_name"> <br>
