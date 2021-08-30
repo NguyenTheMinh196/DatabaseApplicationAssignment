@@ -6,6 +6,6 @@ CREATE TABLE `branch` (
   PRIMARY KEY(branchcode)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-INSERT INTO `users` (`branchname`, `branchcode`, `address`, `hotlinenumber`) VALUES
+INSERT INTO `branch` (`branchname`, `branchcode`, `address`, `hotlinenumber`) VALUES
 ("Ha noi branch 1", 01, "Ha noi", "09121212121"),
 ("Ho Chi Minh branch 1", 02, "Ho Chi Minh", "09212121212");
