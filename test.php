@@ -13,10 +13,8 @@ require 'vendor/autoload.php';
     "url" => "http://www.tutorialspoint.com/mongodb/",
     "by" => "tutorials point"
  );   
- $collection->insert($document);
+ $collection->insertOne($document);
  echo "Document inserted successfully";
    echo "Database mydb selected";
-   if($connection = new mongoClient()){
-    echo "Connected Successfully";
- } 
+
 ?>

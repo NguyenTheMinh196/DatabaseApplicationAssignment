@@ -1,3 +1,13 @@
+<?php
+require '../vendor/autoload.php';
+   // connect to mongodb
+   $connection = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
+   // select a database
+   $db = $connection->asm;
+   $collection = $db->test;
+   $pdo = new PDO('mysql:host=localhost;dbname=assignment', '', '');
+   $users = $pdo->query("SELECT ")
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -26,20 +36,34 @@
                 <img src="../img/avatar-1.jpg" width="30px" height="30px">
             </div>
             <div class="row">
+            <?php
+                $data = $collection->find();
+                foreach ($data as $product){
+            ?>
                 <div class="col-2">
-                    <h1>Name of the product</h1>
-                    <h3>Opening time</h3>
-                    <p>Opening time</p>
+                    <?php
+                    echo('<h1>' . $product->name . '</h1>');
+                    echo('<h3>Opening time:</h3>');
+                    echo($product->openingprice);
+                    ?>
                 </div>
                 <div class="col-2">
-                    <h3>Seller: </h3>
-                    <p> Name of the seller</p>
-                    <h3>Current status:</h3>
-                    <p> Open/Closed</p>
-                    <h3>Closing time: </h3>
-                    <p> Closing Date</p>
-                    <h3>Opening price: </h3>
-                    <p> Closing Date</p>
+                <?php
+                    echo('<h3>Seller: </h3>');
+                    echo($product->seller_id);
+                    echo('<h3>Current Status: </h3>');
+                    echo($product->status);
+                    echo('<h3>Closing time: </h3>');
+                    echo($product->closingDate->toDateTime()->format('Y/m/d'));
+                    echo('<h3>Opening price: </h3>');
+                    echo($product->openingprice);
+                    foreach($product as $key=>$value){
+                        if($key != "seller_id" && $key != "status" && $key!= "_id" && $key != "openingDate" && $key != "closingDate" && $key!= "name")
+                        echo('<h3>'. $key .'</h3>');
+                        echo($value);
+                    }
+                }
+                ?>
                 </div>
             </div>
         </div>

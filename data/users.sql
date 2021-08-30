@@ -9,7 +9,7 @@
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
-SET time_zone = "+00:00";
+SET time_zone = "+07:00";
 
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -28,26 +28,28 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `users` (
-  `firstname` varchar(100) NOT NULL,
-  `lastname` varchar(100) NOT NULL,
-  `username` varchar(255) NOT NULL,
-  `phonenumber` varchar(50) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `firstname` varchar(15) NOT NULL,
+  `lastname` varchar(20) NOT NULL,
+  `username` varchar(15) NOT NULL,
+  `phonenumber` varchar(10) NOT NULL,
+  `email` varchar(30) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `ID` int(100) NOT NULL,
-  `address` varchar(255) NOT NULL,
-  `city` varchar(100) NOT NULL,
-  `country` varchar(100) NOT NULL,
-  `image` varchar(255) NOT NULL
+  `ID` int(100) NOT NULL AUTO_INCREMENT,
+  `address` varchar(60) NOT NULL,
+  `country` varchar(15) NOT NULL,
+  `image` longblob NOT NULL,
+  `branch` int(100) NOT NULL,
+  `balance` int(100) NOT NULL,
+  PRIMARY KEY(`ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `users`
 --
-
-INSERT INTO `users` (`firstname`, `lastname`, `username`, `phonenumber`, `email`, `password`, `ID`, `address`, `city`, `country`, `image`) VALUES
-('Dang Huy', 'Nguyen', 'darkdraken', '090321030', 'anhmeochidang@gmail.com', 'b11d834ec73ef531b33cf30103232e9e8e7e3398', 12341245, 'Tan Hung', 'Ho chi minh ', 'vietnam', '436654.jpg'),
-('Sang', 'Nguyen', 'darkdraken123', '90321030', 'darkdraken47@gmail.com', 'danghuy0505', 2147483647, 'Tan Hung', 'Ho chi minh', 'Vietnam', '436654.jpg');
+--for blob data )please choose a random file as your avatar
+INSERT INTO `users` (`firstname`, `lastname`, `username`, `phonenumber`, `email`, `password`, `ID`, `address`, `address`, `country`, `branch`, `balance`) VALUES
+('Dang Huy', 'Nguyen', 'darkdraken', '0903210302', 'anhmeochidang@gmail.com', 'b11d834ec73ef531b33cf30103232e9e8e7e3398', 12341245, '702 Nguyen Van Linh, Tan Hung, Quan 7', 'Ho chi minh ', 'vietnam', 2, 350000000),
+('Sang', 'Nguyen', 'darkdraken123', '0903210303', 'darkdraken47@gmail.com', 'danghuy0505', 2147483647, 'Handi Resco Building, 521 Kim Ma, Ngoc Khanh, Ba Đinh', 'Ha Noi', 'Vietnam', 1, 400000000);
 
 --
 -- Indexes for dumped tables

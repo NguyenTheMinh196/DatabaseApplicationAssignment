@@ -1,3 +1,12 @@
+<?php
+require 'vendor/autoload.php';
+   // connect to mongodb
+   $connection = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
+   // select a database
+   $db = $connection->asm;
+   $collection = $db->test;
+    
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -86,7 +95,8 @@
             </div>
         </div>
             <div class = "market_section">
-                <div class = "product_name section">
+                
+                <div class = "product_name section">                
                     Product's name
                 </div>
                 <div class = "seller section">
@@ -102,21 +112,26 @@
                     Number of bids
                 </div>
                 <!-- product 1 -->
-                <div class = "product_name section product">
-                    Product's name
-                </div>
-                <div class = "seller section product">
-                    Seller
-                </div>
-                <div class = "closing_time section product">
-                    Closing time
-                </div>
-                <div class = "current_highest_bid section product">
-                    Current highest bid
-                </div>
-                <div class = "number_of_bids section product">
-                    Number of bids
-                </div>
+                <?php
+                $data = $collection->find();
+                foreach ($data as $product){
+                    echo('<div class = "product_name section product">');
+                    echo($product->name);
+                    echo('</div>');
+                    echo('<div class = "seller section product">');
+                    echo($product->seller_id);
+                    echo('</div>');
+                    echo('<div class = "closing_time section product">');
+                    echo($product->closingDate->toDateTime()->format('Y/m/d'));
+                    echo('</div>');
+                    echo('<div class = "current_highest_bid section product">');
+                    echo($product->openingprice);
+                    echo('</div>');
+                    echo('<div class = "number_of_bids section product">');
+                    echo($product->number_of_bid);
+                    echo('</div>');
+                }
+                ?>
                 <!--product 2-->
                 <div class = "product_name section product">
                     Product's name

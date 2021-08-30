@@ -25,12 +25,12 @@
             
 
         <form action="" method="POST" class="text-center"> <br> <br>
-        Username: 
-        <input type="text" name="username" placeholder="Enter Username"> <br> <br>
+        Phone number: 
+        <input type="text" name="phonenumber" placeholder="Enter Phone number"> <br> <br>
          <br> <br>  Password: 
         <input type="password" name="password" placeholder="Enter Password"><br>
         <br> <br>
-        <a href="phonelogin.php">Or log in with phone number</a>
+        <a href="login.php">Or log in with username</a>
         <br><br>
         <input type="submit" name="submit" value="login" class="btn-primary">
 
@@ -47,17 +47,17 @@
 <?php
 if(isset($_POST['submit']))
 {
-    $username=$_POST['username'];
+    $phonenumber=$_POST['phonenumber'];
     $password=$_POST['password'];
 
-    $sql="SELECT * FROM users WHERE username='$username' AND password='$password'";
+    $sql="SELECT * FROM users WHERE phonenumber='$phonenumber' AND password='$password'";
     $res= mysqli_query ($conn ,$sql);
     $count = mysqli_num_rows($res);
 
 if($count==1)
 {
     $_SESSION['login']="Login Successfully";
-    $_SESSION['user']= $username;
+    $_SESSION['user']= $phonenumber;
     header('location:'.SITEURL.'index.php');
 }
 else {
