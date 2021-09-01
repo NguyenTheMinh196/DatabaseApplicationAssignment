@@ -5,6 +5,33 @@ require 'vendor/autoload.php';
    // select a database
    $db = $connection->asm;
    $collection = $db->test;
+   $db_user = "root";
+    $db_pass = "";  
+    $db_name = "assignment";
+
+    $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
+    $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid;');
+
+    if(isset($_POST['search'])){
+        $product_name 		= $_POST['name_search'];
+        $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%";');
+
+    };
+    if(isset($_POST['sort'])){
+        $type 		= $_POST['sort_column_type'];
+        $column_name 		= $_POST['sort_column_name'];
+        if($column_name == "closing_time"){
+            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.closingtime '.$type.';');
+        }
+        elseif($column_name == "current_bid_price"){
+            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.minimumprice '.$type.';');
+        }
+        elseif($column_name == "the_number_of_bids_placed"){
+            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.bidplaced '.$type.';');
+
+        }
+    };
     
 ?>
 <!DOCTYPE html>
@@ -21,7 +48,6 @@ require 'vendor/autoload.php';
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
 </head>
 <body>
-    <?php echo("hello world")?>
     <!-- start header -->
     <header>
         <div>
@@ -68,71 +94,98 @@ require 'vendor/autoload.php';
         </div>
         <div class = "body_container">
             <div class = "tool_bar">
-                <form class = "search">
-                    <input type = "text" name = "search" placeholder = "Search"  class= "search_bar">
-                    <button type="submit" class = "submit_button"><i class="fa fa-search"></i></button>
+                <form class = "search" method = "post">
+                    <input type = "text" name = "name_search" placeholder = "Search"  class= "search_bar">
+                    <button type="submit" name = "search" class = "submit_button"><i class="fa fa-search"></i></button>
                 </form>
-                <form class = "sort">
+                <form class = "sort" method = "post">
                     <div class = "sort_container">
                     <!-- <div> -->
                         <label for = "sort_column_name"> Sort by :</label>
                         <select name = "sort_column_name" id = "sort_column_name" class = "get_sort"> 
                             <option value="closing_time">closing time</option>
-                            <option value="current_maximum_bid_price">current maximum bid price</option>
+                            <option value="current_bid_price">current bid price</option>
                             <option value="the_number_of_bids_placed">the number of bids placed</option>
                         </select>
                     <!-- </div> -->
                     <!-- <div> -->
-                        <select name = "sort_column_name" id = "sort_column_name" class = "get_sort"> 
+                        <select name = "sort_column_type" id = "sort_column_type" class = "get_sort"> 
                             <option value="ASC">ascension</option>
                             <option value="DESC">descending</option>
                         </select>
                     <!-- </div> -->
-                        <input type="submit" value="Go" class = "submit_button get_sort">
+                        <input type="submit" value="Go" class = "submit_button get_sort" name = "sort">
                 </div>
             </form>
                 
             </div>
         </div>
             <div class = "market_section">
+                <div class = "oneproduct">
                 
-                <div class = "product_name section">                
-                    Product's name
-                </div>
-                <div class = "seller section">
-                    Seller
-                </div>
-                <div class = "closing_time section">
-                    Closing time
-                </div>
-                <div class = "current_highest_bid section">
-                    Current highest bid
-                </div>
-                <div class = "number_of_bids section">
-                    Number of bids
-                </div>
+                    <div class = "product_name section">                
+                        Product's name
+                    </div>
+                    <div class = "seller section">
+                        Seller
+                    </div>
+                    <div class = "closing_time section">
+                        Closing time
+                    </div>
+                    <div class = "current_highest_bid section">
+                        Current highest bid
+                    </div>
+                    <div class = "number_of_bids section">
+                        Number of bids
+                    </div>
+            </div>
                 <!-- product 1 -->
                 <?php
+
                 $data = $collection->find();
-                foreach ($data as $product){
+                foreach ($display as $row) {
+                    echo('<a class = "link_to_prod" href = "php/bid.php?product=' . $row["id"] . '">');
+                    echo('<div class = "oneproduct">');
                     echo('<div class = "product_name section product">');
-                    echo($product->name);
+                    echo($row['name']);
                     echo('</div>');
                     echo('<div class = "seller section product">');
-                    echo($product->seller_id);
+                    echo($row['firstname']);
                     echo('</div>');
                     echo('<div class = "closing_time section product">');
-                    echo($product->closingDate->toDateTime()->format('Y/m/d'));
+                    echo($row['closingtime']);
                     echo('</div>');
                     echo('<div class = "current_highest_bid section product">');
-                    echo($product->openingprice);
+                    echo($row['minimumprice']);
                     echo('</div>');
                     echo('<div class = "number_of_bids section product">');
-                    echo($product->number_of_bid);
+                    echo($row['bidplaced']);
                     echo('</div>');
+                    echo('</div>');
+                    echo('</a>');
                 }
+                //     }
+                // foreach ($data as $product){
+                //     echo('<div class = "oneproduct">');
+                //     echo('<div class = "product_name section product">');
+                //     echo($product->name);
+                //     echo('</div>');
+                //     echo('<div class = "seller section product">');
+                //     echo($product->seller_id);
+                //     echo('</div>');
+                //     echo('<div class = "closing_time section product">');
+                //     echo($product->closingDate->toDateTime()->format('Y/m/d'));
+                //     echo('</div>');
+                //     echo('<div class = "current_highest_bid section product">');
+                //     echo($product->openingprice);
+                //     echo('</div>');
+                //     echo('<div class = "number_of_bids section product">');
+                //     echo($product->number_of_bid);
+                //     echo('</div>');
+                //     echo('</div>');
+                // }
                 ?>
-                <!--product 2-->
+                <!-- product 2
                 <div class = "product_name section product">
                     Product's name
                 </div>
@@ -147,7 +200,7 @@ require 'vendor/autoload.php';
                 </div>
                 <div class = "number_of_bids section product">
                     Number of bids
-                </div>
+                </div> -->
             </div> 
             
         </div>
@@ -181,6 +234,7 @@ require 'vendor/autoload.php';
     </footer>
     <!-- end footer -->
 </body>
+</script>
 </html>
 
 
@@ -239,3 +293,4 @@ require 'vendor/autoload.php';
 //     "closingprice": 154000000,
 //     "status": "closed"
 // }
+//$product->closingDate->toDateTime()->format('Y/m/d')

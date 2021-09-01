@@ -10,6 +10,33 @@ CREATE TABLE `product` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 SET time_zone = '+07:00'
 INSERT INTO `product` (`name`, `id`, `minimumprice`, `closingtime`, `sellerid`, `buyerid`, `bidplaced`) VALUES
-("rolex", 1, 15000000, '2021-08-31', 12341245 , 2147483647, 1)
-("drone", 2, 3000000, '2021-08-32', 2147483647, 12341245, 2)
-("rolex", 3, 15000000, '2021-08-31', 12341245, 2147483647, 1)
+("rolex", 1, 15000000, '2021-08-31', 12341245 , 2147483647, 1),
+("drone", 2, 3000000, '2021-09-02', 2147483647, 12341245, 2),
+("Honeypot", 3, 150000, '2021-08-31', 12341245, 2147483647, 1))
+  UPDATE product set bidplaced = bidplaced + 1;
+
+DELIMITER $$
+CREATE TRIGGER minimumprice_update
+BEFORE UPDATE ON product.minimumprice
+AS
+begin
+  UPDATE product set bidplaced = bidplaced + 1 WHERE id = NEW.id;
+  IF OLD.minimumprice >= NEW.minimumprice THEN
+  SIGNAL SQLSTATE '45000' set message_text = "the new bid price must be higher than the minimum price";
+  END IF;
+  IF OLD.minimumprice < NEW.minimumprice THEN
+  END IF;
+  END $$
+DELIMITER ;
+
+DELIMITER $$
+CREATE TRIGGER minimumprice_update
+BEFORE UPDATE ON product.minimumprice
+AS BEGIN
+  IF minimumprice >= NEW.minimumprice THEN
+  SIGNAL SQLSTATE '45000' set message_text = "the new bid price must be higher than the minimum price";
+  END IF;
+  IF minimumprice < NEW.minimumprice THEN
+  END IF;
+END $$
+DELIMITER ;

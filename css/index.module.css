@@ -53,16 +53,22 @@
     margin-left: 10px;
 }
 
-.body .market_section {
+.body .market_section .oneproduct {
     display: grid;
     grid-template-columns: 20% 20% 20% 20% 20%;
     padding: 0px 10px 20px 10px;
     border-top: 1px rgb(70, 69, 69) solid;
+    width: 100%;
 }
 
 .body .market_section .section {
     padding: 10px 0px 10px 0px;
     text-align: center;
+}
+
+.body .market_section .link_to_prod {
+    text-decoration: none;
+    color: black;
 }
 
 .body .market_section .product {
