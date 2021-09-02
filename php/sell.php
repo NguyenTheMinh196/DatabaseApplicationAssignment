@@ -15,7 +15,7 @@ $document = array(
     "description" => "$d"
 );
 
-$collection->insert($document);
+$collection->insertOne($document);
 echo "New product added!";
 $conn->close();
 ?>
