@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="../css/account.module.css" />
     <title>Account page</title>
   </head>
+
   <div id="nav-placeholder"></div>
   <body>
     <div class="form_container">
@@ -30,11 +31,23 @@
         <h1>Personal Information</h1>
         <div  style = "text-align: left;"> <img src = "../img/avatar-1.jpg" alt = "avatar" class = "profile_pic" ></div>
         <h2>Full Name:</h2>
-        <p> Name</p>
+        <p><?php  echo $username ?></p>
         <h2>Password:</h2>
         <p> password</p>
         <h2>Address:</h2>
         <p>address</p>
+           <h2>Email:</h2>
+        <p></p>
+           <h2>Phone:</h2>
+        <p></p>
+           <h2>password</h2>
+        <p></p>
+           <h2>country</h2>
+        <p></p>
+         <h2>branch</h2>
+        <p></p>
+         <h2>balance</h2>
+        <p></p>
       </div>
     </div>
   </body>
