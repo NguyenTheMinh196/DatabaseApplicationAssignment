@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -33,14 +34,15 @@
         <form action="sell.php" method="post">
             <h1 style = "text-align: center"> Sell product</h1>
             <label for = "product_name">Product Name:</label>
-            <input type = "text" name = "product_name" value = "Name" id = "product_name"> <br>
+            <input type = "text" name = "name"  id = "product_name"> <br>
+            <label for = "description">Product review:</label>
+            <input type = "text" name = "description"  id = "description"> <br>
             <label for = "opening_price">Opening price:</label>
-            <input type = "number" name = "opening_price" value = "0" id = "opening_price"><br>
-            <label for = "closing_date">Closing date:</label>
-            <input type = "Date" name="closing_date" value="2021-07-26" id = "closing_date"><br>
-            <label for = "closing_hour">Closing hour:</label>
+            <input type = "number" name = "minimum_price" id = "minimum_price"><br>
+            <label for = "closing_time">Closing time:</label>
+            <input type = "Date" name="closing_time" value="2021-07-26" id = "closing_date"><br>
             <input type = "number" name = "closing_hour" value = "0" min = "0" max = "24"  id = "closing_hour"><br>
-            <input type = "submit" value = "Sell">
+            <input type = "submit" value = "Sell" name ="sell">
         </form>
     </div>
     </body>
