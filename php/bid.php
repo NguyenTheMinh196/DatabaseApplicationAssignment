@@ -60,13 +60,18 @@ require '../vendor/autoload.php';
                 <div class="col-2">
                 <?php
                     echo('<h3>Bid placed: </h3>');
+                    if($product_data['bidplaced'] == null){
+                        echo('0');
+                    }
                     echo($product_data['bidplaced']);
                     echo('<h3>Closing time: </h3>');
                     echo($product_data["closingtime"]); //currently a string can turn to time using strtotime()
-                    foreach ($data as $key=>$value){
-                        if($key != "_id"){
-                            echo('<h3>' . $key .'</h3>');
-                            echo($value);
+                    if($data != null){
+                        foreach ($data as $key=>$value){
+                                if($key != "_id"){
+                                echo('<h3>' . $key .'</h3>');
+                                echo($value);
+                            }
                         }
                     }
                 ?>
