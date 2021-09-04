@@ -5,8 +5,19 @@ require '../vendor/autoload.php';
    // select a database
    $db = $connection->asm;
    $collection = $db->test;
-   $pdo = new PDO('mysql:host=localhost;dbname=assignment', '', '');
-   $users = $pdo->query("SELECT ")
+   $db_user = "root";
+   $db_pass = "";  
+   $db_name = "assignment";
+
+   $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
+   $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+   $id_product = $_GET["product"];
+   $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
+   $product_data = $display->fetch();
+   if(isset($_POST['bid'])){
+    $bidding_price 		= $_POST['bidding_price'];
+    $display = $sqldb->query('UPDATE product SET minimumprice = '. (int)$bidding_price . ' WHERE P.id = '. $id_product . ' ;');
+};
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,32 +48,27 @@ require '../vendor/autoload.php';
             </div>
             <div class="row">
             <?php
-                $data = $collection->find();
-                foreach ($data as $product){
+                $data = $collection->findOne(array('_id' => (int)$product_data['id']));
             ?>
                 <div class="col-2">
                     <?php
-                    echo('<h1>' . $product->name . '</h1>');
-                    echo('<h3>Opening time:</h3>');
-                    echo($product->openingprice);
+                    echo('<h1>' . $product_data['name'] . '</h1>');
+                    echo('<h3>Seller name:</h3>');
+                    echo($product_data['firstname']);
                     ?>
                 </div>
                 <div class="col-2">
                 <?php
-                    echo('<h3>Seller: </h3>');
-                    echo($product->seller_id);
-                    echo('<h3>Current Status: </h3>');
-                    echo($product->status);
+                    echo('<h3>Bid placed: </h3>');
+                    echo($product_data['bidplaced']);
                     echo('<h3>Closing time: </h3>');
-                    echo($product->closingDate->toDateTime()->format('Y/m/d'));
-                    echo('<h3>Opening price: </h3>');
-                    echo($product->openingprice);
-                    foreach($product as $key=>$value){
-                        if($key != "seller_id" && $key != "status" && $key!= "_id" && $key != "openingDate" && $key != "closingDate" && $key!= "name")
-                        echo('<h3>'. $key .'</h3>');
-                        echo($value);
+                    echo($product_data["closingtime"]); //currently a string can turn to time using strtotime()
+                    foreach ($data as $key=>$value){
+                        if($key != "_id"){
+                            echo('<h3>' . $key .'</h3>');
+                            echo($value);
+                        }
                     }
-                }
                 ?>
                 </div>
             </div>
@@ -72,11 +78,16 @@ require '../vendor/autoload.php';
         <div class="row">
         <div class="col-4">
             <h1>Bidding place</h1>
-            <h2>Minimum Bidding price: 125$</h2>
-            <form>
+            <?php
+            echo('<h2>Minimum Bidding price:'.  $product_data['minimumprice'] . 'VND</h2>');
+            ?>
+            <form method = "post">
                 <label for= "bidding_price"></label>
-                <input type = "number" name = "bidding_price" min = "125" id = "bidding_price">
-                <input type = "submit" value = "bid">
+                <?php
+                echo('<input type = "number" name = "bidding_price" min = "'. $product_data['minimumprice'] .'" id = "bidding_price">');
+                ?>
+                <input type = "submit" value = "bid" name = "bid">
+                
             </form>
             
         </div>
