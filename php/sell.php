@@ -14,7 +14,7 @@ $db_name = "assignment";
 
 $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
 $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$product_sql = $sqldb->prepare("INSERT INTO product(name, minimumprice, closingtime, sellerid) VALUES(?, ?, ?, ?)");
+$product_sql = $sqldb->prepare("INSERT INTO product(name, minimumprice, closingtime, sellerid, bidplaced) VALUES(?, ?, ?, ?, 0)");
 
 if(isset($_POST['name'])){
     $name=$_POST['name'];

@@ -12,12 +12,14 @@ require '../vendor/autoload.php';
    $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
    $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    $id_product = $_GET["product"];
-   $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
-   $product_data = $display->fetch();
+
    if(isset($_POST['bid'])){
     $bidding_price 		= $_POST['bidding_price'];
-    $display = $sqldb->query('UPDATE product SET minimumprice = '. (int)$bidding_price . ' WHERE P.id = '. $id_product . ' ;');
+    $display = $sqldb->query('UPDATE product SET minimumprice = '. (int)$bidding_price . ', bidplaced = bidplaced + 1 WHERE id = '. $id_product . ' ;');
 };
+   $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
+   $product_data = $display->fetch();
+   
 ?>
 <!DOCTYPE html>
 <html lang="en">
