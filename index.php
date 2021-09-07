@@ -15,7 +15,8 @@ require 'vendor/autoload.php';
 
     if(isset($_POST['search'])){
         $product_name 		= $_POST['name_search'];
-        $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%";');
+    $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid 
+    WHERE P.name Like "%' .$product_name . '%";');
 
     };
     if(isset($_POST['sort'])){
