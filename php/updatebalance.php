@@ -10,7 +10,6 @@
     $update = $sqldb->prepare('UPDATE users SET balance = ? WHERE ID = ?');
     $id = $_GET['user'];
     $getuser = $sqldb->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch, U.balance FROM users U WHERE U.ID = '.$id);
-
    // get values form input text and number
    
    if(isset($_POST['update'])){

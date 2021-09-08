@@ -1,3 +1,18 @@
+<?php
+session_start();
+// select a database
+// $seller_id = $_SESSION['desd'];
+$seller_id = 2147483647; //currently using hardcode
+$db_user = "root";
+$db_pass = "";  
+$db_name = "assignment";
+
+
+$sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
+$sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$user_sql = $sqldb->query("SELECT * FROM users U ");
+$user_data = $user_sql->fetch();
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -29,25 +44,42 @@
     <div class="form_container">
       <div class="form_fields">
         <h1>Personal Information</h1>
-        <div  style = "text-align: left;"> <img src = "../img/avatar-1.jpg" alt = "avatar" class = "profile_pic" ></div>
+        <div  style = "text-align: left;"> 
+        <?php
+        echo ('<img src="data:image/jpeg;base64,'.base64_encode( $user_data['image'] ).'" style = "  vertical-align: middle;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;"/>');
+        ?>
+        </div>
         <h2>Full Name:</h2>
-        <p><?php  echo $username ?></p>
-        <h2>Password:</h2>
-        <p> password</p>
+        <p><?php
+        echo ($user_data['lastname'] . ' ' . $user_data['firstname']);
+        ?></p>
+        <h2>Username:</h2>
+        <p><?php
+        echo ($user_data['username']);
+        ?></p>
         <h2>Address:</h2>
-        <p>address</p>
+        <p><?php
+        echo ($user_data['address']);
+        ?></p>
            <h2>Email:</h2>
-        <p></p>
+           <p><?php
+        echo ($user_data['email']);
+        ?></p>
            <h2>Phone:</h2>
-        <p></p>
-           <h2>password</h2>
-        <p></p>
+           <p><?php
+        echo ($user_data['phonenumber']);
+        ?></p>
            <h2>country</h2>
-        <p></p>
-         <h2>branch</h2>
-        <p></p>
+           <p><?php
+        echo ($user_data['country']);
+        ?></p>
          <h2>balance</h2>
-        <p></p>
+         <p><?php
+        echo ($user_data['balance']);
+        ?></p>
       </div>
     </div>
   </body>

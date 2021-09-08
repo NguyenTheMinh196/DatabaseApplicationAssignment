@@ -5,7 +5,7 @@ CREATE TABLE `product` (
   `closingtime` DATETIME NOT NULL,
   `sellerid` int(100) NOT NULL,
   `buyerid` int(100),
-  `bidplaced` int(100),
+  `bidplaced` int(100) NOT NULL,
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 SET time_zone = '+07:00'
@@ -39,4 +39,33 @@ AS BEGIN
   IF minimumprice < NEW.minimumprice THEN
   END IF;
 END $$
+DELIMITER ;
+
+//
+BID TRANSACTION: 
+DELIMITER //
+CREATE PROCEDURE bid (IN userID char(9), IN productID INT, IN bidprice INT)
+BEGIN
+	DECLARE productbuyerid INT;
+    DECLARE productprice INT;
+	START TRANSACTION;
+  	INSERT INTO WORKS_ON VALUES (employeeID, projectNumber, numberHours);
+        SELECT buyerid, price INTO productbuyerid, productprice FROM transaction WHERE id = productID;
+		IF  productbuyerid = userID THEN
+			UPDATE users SET balance = balance + productprice - bidprice WHERE ID = productbuyerid;
+            UPDATE product SET minimumprice = bidprice WHERE id = productID;
+		ELSE
+        	IF productprice = NULL THEN
+			UPDATE users SET balance = balance - bidprice WHERE ID = userID;
+            UPDATE product SET minimumprice = bidprice WHERE id = productID;
+            		COMMIT;
+
+            ELSE
+            UPDATE users SET balance = balance - bidprice WHERE ID = userID;
+            UPDATE product SET minimumprice = bidprice WHERE id = productID;
+            UPDATE users SET balance = balance + productprice WHERE ID = productbuyerid;
+					COMMIT;
+            END IF;
+		END IF;
+END //
 DELIMITER ;

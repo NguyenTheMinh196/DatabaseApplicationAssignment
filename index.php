@@ -11,24 +11,24 @@ require 'vendor/autoload.php';
 
     $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
     $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid;');
+    $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = 0;');
 
     if(isset($_POST['search'])){
         $product_name 		= $_POST['name_search'];
-        $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%";');
+        $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%" AND P.status = 0;');
 
     };
     if(isset($_POST['sort'])){
         $type 		= $_POST['sort_column_type'];
         $column_name 		= $_POST['sort_column_name'];
         if($column_name == "closing_time"){
-            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.closingtime '.$type.';');
+            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.closingtime '.$type.' AND P.status = 0;');
         }
         elseif($column_name == "current_bid_price"){
-            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.minimumprice '.$type.';');
+            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.minimumprice '.$type.' AND P.status = 0;');
         }
         elseif($column_name == "the_number_of_bids_placed"){
-            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.bidplaced '.$type.';');
+            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.bidplaced '.$type.' AND P.status = 0;');
 
         }
     };
@@ -36,7 +36,25 @@ require 'vendor/autoload.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-
+<?php
+if(isset($_POST['search'])){
+    $transaction_start_date 	= $_POST['start_date'];
+    $transaction_end_date 		= $_POST['end_date'];
+    $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+    FROM transaction T JOIN users U ON U.ID = T.sellerid
+    JOIN users U1 ON U1.ID = T.buyerid
+    WHERE T.closingtime >= '.$transaction_start_date.' AND T.closingtime <='.$transaction_end_date.'');
+    };
+    if(isset($_POST['search'])){
+        $transaction_start_date 	= $_POST['start_date'];
+        $transaction_end_date 		= $_POST['end_date'];
+        
+        $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+        FROM transaction T JOIN users U ON U.ID = T.sellerid
+        JOIN users U1 ON U1.ID = T.buyerid
+        WHERE T.closingtime BETWEEN "$transaction_start_date" AND "$transaction_end_date"');
+        };
+?>
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
