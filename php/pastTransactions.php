@@ -1,30 +1,23 @@
 <?php
+session_start();
 require '../vendor/autoload.php';
-   // connect to mongodb
-   $connection = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
-   // select a database
-   $db = $connection->asm;
-   $collection = $db->test;
-   $name='rolex';
-   $db_user = "root";
-    $db_pass = "";  
-    $db_name = "assignment";
+$conn = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
+// select a database
+$db = $conn->admin;
+$collection = $db->products;
+// $seller_id = $_SESSION['desd'];
+$user_id = 2147483647; //currently using hardcode
+$db_user = "root";
+$db_pass = "";  
+$db_name = "assignment";
 
-    $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
-    $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
-    FROM transaction T JOIN users U ON U.ID = T.sellerid
-    JOIN users U1 ON U1.ID = T.buyerid;');
 
-    if(isset($_POST['search'])){
-    $transaction_start_date 	= $_POST['start_date'];
-    $transaction_end_date 		= $_POST['end_date'];
-    
-    $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+$sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
+$sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
-    WHERE T.closingtime>="'.$transaction_start_date.'" AND "'.$transaction_end_date.'";');
-    };
+    WHERE T.sellerid="'.$user_id.'" OR T.buyerid="'.$user_id.'"');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -67,7 +60,6 @@ require '../vendor/autoload.php';
                         <p><i class="fas fa-caret-down"></i> name</p>
                         <div class = "More_info_name">
                         <a href = "#">Account</a>
-                        <a href = "#">Past transaction</a>
                         </div>
                     </div>
                     <div>
@@ -82,7 +74,7 @@ require '../vendor/autoload.php';
     <!-- start body -->
     <div class = "body">
         <div class = "Header">
-            <h1>Transaction </h1>
+            <h1>Transaction History: </h1>
         </div>
         <div class = "body_container">
         </div>

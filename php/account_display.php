@@ -3,7 +3,7 @@
 require_once '../vendor/autoload.php';
 // Update user and password variables according to your system configuration
 $user = 'root';
-$pass = 'Congacon321';
+$pass = '';
 $dbname = 'assignment';
 $host = 'localhost';
 
