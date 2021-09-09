@@ -22,6 +22,7 @@ $broughtproduct = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
     WHERE T.buyerid = "'.$user_id.'" AND T.status = 1;');
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

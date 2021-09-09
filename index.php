@@ -43,17 +43,17 @@ if(isset($_POST['search'])){
     $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
-    WHERE T.closingtime >= '.$transaction_start_date.' AND T.closingtime <='.$transaction_end_date.'');
+    WHERE T.closingtime >= "'.$transaction_start_date.'" AND T.closingtime <="'.$transaction_end_date.'";');
     };
     if(isset($_POST['search'])){
-        $transaction_start_date 	= $_POST['start_date'];
-        $transaction_end_date 		= $_POST['end_date'];
-        
-        $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
-        FROM transaction T JOIN users U ON U.ID = T.sellerid
-        JOIN users U1 ON U1.ID = T.buyerid
-        WHERE T.closingtime BETWEEN "$transaction_start_date" AND "$transaction_end_date"');
-        };
+    $transaction_start_date 	= $_POST['start_date'];
+    $transaction_end_date 		= $_POST['end_date'];
+    
+    $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+    FROM transaction T JOIN users U ON U.ID = T.sellerid
+    JOIN users U1 ON U1.ID = T.buyerid
+    WHERE T.closingtime BETWEEN "'.$transaction_start_date.'" AND "'.$transaction_end_date.'";');
+    };
 ?>
 <head>
   <meta charset="UTF-8" />

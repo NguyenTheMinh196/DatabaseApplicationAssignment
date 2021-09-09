@@ -25,6 +25,7 @@ require '../vendor/autoload.php';
     JOIN users U1 ON U1.ID = T.buyerid
     WHERE T.status = 1 AND T.closingtime >= "'.$transaction_start_date.'" AND T.closingtime < "'.$transaction_end_date.'";');
     };
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
