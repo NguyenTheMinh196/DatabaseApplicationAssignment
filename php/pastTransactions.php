@@ -14,10 +14,11 @@ $db_name = "assignment";
 
 $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
 $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+$now= date("Y/m/d");
 $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
-    WHERE T.sellerid="'.$user_id.'" OR T.buyerid="'.$user_id.'"');
+    WHERE T.sellerid="'.$user_id.'" OR T.buyerid="'.$user_id.'" AND T.closingtime<="'.$now.'";');
 ?>
 <!DOCTYPE html>
 <html lang="en">
