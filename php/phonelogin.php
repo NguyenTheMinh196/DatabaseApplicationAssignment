@@ -1,4 +1,4 @@
-<?php include('config2.php'); ?>
+<?php include('config_sql.php'); ?>
 <head>
     <title>Login</title>
   

@@ -1,27 +1,14 @@
 <?php
 session_start();
-require '../vendor/autoload.php';
-$conn = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
-// select a database
-$db = $conn->admin;
-$collection = $db->products;
-// $seller_id = $_SESSION['desd'];
-$user_id = 2147483647; //currently using hardcode
-$db_user = "root";
-$db_pass = "";  
-$db_name = "assignment";
-
-
-$sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
-$sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$soldproduct = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+require_once('config_sql.php');
+$soldproduct = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
-    WHERE T.sellerid = "'.$user_id.'" AND T.status = "sold";');
-$boughtproduct = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+    WHERE T.sellerid = "'.$user_id.'" AND (T.status = "sold" OR T.status = "canceled");');
+$boughtproduct = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
-    WHERE T.buyerid = "'.$user_id.'" AND T.status = "sold";');
+    WHERE T.buyerid = "'.$user_id.'" AND (T.status = "sold" OR T.status = "canceled");');
 
 ?>
 <!DOCTYPE html>
@@ -120,7 +107,6 @@ $boughtproduct = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.f
                 <!-- product 1 -->
                 <?php
 
-                $data = $collection->find();
                 foreach ($soldproduct as $row) {
                     echo('<div class = "onetransaction" style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">');
                     echo('<div class = "product_name section product">');
@@ -170,7 +156,6 @@ $boughtproduct = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.f
                 <!-- product 1 -->
                 <?php
 
-                $data = $collection->find();
                 foreach ($broughtproduct as $row) {
                     echo('<div class = "onetransaction"  style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">');
                     echo('<div class = "product_name section product">');

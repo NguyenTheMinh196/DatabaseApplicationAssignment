@@ -1,28 +1,19 @@
 <?php
-require '../vendor/autoload.php';
 session_start();
+require_once('config_mongodb.php');
+require_once('config_sql.php');
 
-   // connect to mongodb
-   $connection = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
-   // select a database
-   $db = $connection->asm;
-   $collection = $db->test;
-   $db_user = "root";
-   $db_pass = "";  
-   $db_name = "assignment";
    // $user_id = $_SESSION['desd'];
     $user_id = 2147483647; //currently using hardcode
 
-   $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
-   $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
    $id_product = $_GET["product"];
 
    if(isset($_POST['bid'])){
        try{
         $bidding_price 		= $_POST['bidding_price'];
         $sql = 'CALL bid('. (int)$user_id . ', '.(int)$id_product .', '.(int)$bidding_price.')';
-        $bid = $sqldb->query($sql);
-        $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname, U.balance FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
+        $bid = $sql->query($sql);
+        $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname, U.balance FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
         $product_data = $display->fetch();
         echo('<div style = "position: absolute;
     left: 50%;
@@ -38,10 +29,10 @@ session_start();
        }
 }
     else{
-    $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname, U.balance, P.buyerid FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
+    $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname, U.balance, P.buyerid FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
     $product_data = $display->fetch();
     }
-    $user_info = $sqldb->query('SELECT balance FROM users WHERE ID = '.$user_id.';');
+    $user_info = $sql->query('SELECT balance FROM users WHERE ID = '.$user_id.';');
     $user_balance = $user_info->fetch();
 ?>
 <!DOCTYPE html>

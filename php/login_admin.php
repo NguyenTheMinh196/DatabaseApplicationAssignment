@@ -1,4 +1,4 @@
-<?php include('config2.php'); ?>
+<?php require_once('config_sql.php'); ?>
 <head>
     <title>Login Admin</title>
   

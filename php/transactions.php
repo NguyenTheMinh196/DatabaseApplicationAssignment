@@ -1,25 +1,15 @@
 <?php
-require '../vendor/autoload.php';
-   // connect to mongodb
-   $connection = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
-   // select a database
-   $db = $connection->assignment;
-   $collection = $db->product;
-   $db_user = "root";
-    $db_pass = "";  
-    $db_name = "assignment";
-
-    $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
-    $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+require_once('config_sql.php');
+    $display = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
-    JOIN users U1 ON U1.ID = T.buyerid;');
+    JOIN users U1 ON U1.ID = T.buyerid
+    WHERE T.status = "not sold" OR T.status = "canceled";');
    
     if(isset($_POST['search'])){
     $transaction_start_date 	= $_POST['start_date'];
     $transaction_end_date 		= $_POST['end_date'];
     
-    $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+    $display = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
     WHERE T.status = 1 AND T.closingtime >= "'.$transaction_start_date.'" AND T.closingtime < "'.$transaction_end_date.'";');
@@ -27,7 +17,7 @@ require '../vendor/autoload.php';
     if(isset($_POST['cancel'])){
         $id=$_POST['id'];
 
-        $display = $sqldb->query('SELECT id, buyerid, sellerid, price, status FROM transaction
+        $display = $sql->query('SELECT id, buyerid, sellerid, price, status FROM transaction
         WHERE id="'.$id.'";');
         $table=$display->fetch(PDO::FETCH_BOTH);
 
@@ -36,17 +26,17 @@ require '../vendor/autoload.php';
         $buyerid=$table['buyerid'];
         $price=$table['price'];
         if($status="not sold"){
-            $product_sql = $sqldb->prepare('UPDATE users SET balance=balance+"'.$price.'" WHERE id="'.$buyerid.'";');
+            $product_sql = $sql->prepare('UPDATE users SET balance=balance+"'.$price.'" WHERE id="'.$buyerid.'";');
             $product_sql->execute();
         } else if($status="sold") {
-            $product_sql = $sqldb->prepare('UPDATE users SET balance=balance+"'.$price.'" WHERE id="'.$buyerid.'";');
+            $product_sql = $sql->prepare('UPDATE users SET balance=balance+"'.$price.'" WHERE id="'.$buyerid.'";');
             $product_sql->execute();
-            $product_sql = $sqldb->prepare('UPDATE users SET balance=balance-"'.$price.'" WHERE id="'.$buyerid.'";');
+            $product_sql = $sql->prepare('UPDATE users SET balance=balance-"'.$price.'" WHERE id="'.$buyerid.'";');
             $product_sql->execute();
         }
-        $product_sql = $sqldb->prepare('UPDATE transaction SET status="canceled" WHERE id="'.$id.'";');
+        $product_sql = $sql->prepare('UPDATE transaction SET status="canceled" WHERE id="'.$id.'";');
             $product_sql->execute();
-        $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+        $display = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
         FROM transaction T JOIN users U ON U.ID = T.sellerid
         JOIN users U1 ON U1.ID = T.buyerid;');
         };
@@ -152,8 +142,6 @@ require '../vendor/autoload.php';
                 </div>
                 <!-- product 1 -->
                 <?php
-
-                $data = $collection->find();
                 foreach ($display as $row) {
                     echo('<div class = "onetransaction" style = "grid-template-columns: 5% 15% 15% 15% 15% 15% 15%">');
                     echo('<div class = "transaction_id section product">');

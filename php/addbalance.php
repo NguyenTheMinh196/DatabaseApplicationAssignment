@@ -1,34 +1,24 @@
 <?php
-require '../vendor/autoload.php';
-   // connect to mongodb
-   $connection = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
-   // select a database
-   $db = $connection->asm;
-   $collection = $db->test;
-   $db_user = "root";
-    $db_pass = "";  
-    $db_name = "assignment";
+require_once('config_sql.php');
 
-    $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
-    $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $display = $sqldb->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U');
+    $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U');
 
     if(isset($_POST['search'])){
         $username 		= $_POST['name_search'];
-        $display = $sqldb->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U WHERE U.username LIKE "%'.$username.'%"');
+        $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U WHERE U.username LIKE "%'.$username.'%"');
 
     };
     if(isset($_POST['sort'])){
         $type 		= $_POST['sort_column_type'];
         $column_name 		= $_POST['sort_column_name'];
         if($column_name == "username"){
-            $display = $sqldb->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY U.username '.$type.';');
+            $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY U.username '.$type.';');
         }
         elseif($column_name == "country"){
-            $display = $sqldb->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY P.country '.$type.';');
+            $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY P.country '.$type.';');
         }
         elseif($column_name == "branch"){
-            $display = $sqldb->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY P.branch '.$type.';');
+            $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY P.branch '.$type.';');
         }
     };
     

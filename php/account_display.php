@@ -2,14 +2,10 @@
   session_start();
 require_once '../vendor/autoload.php';
 // Update user and password variables according to your system configuration
-$user = 'root';
-$pass = '';
-$dbname = 'assignment';
-$host = 'localhost';
+require_once('config_sql.php');
 
 global $dbh;
-  $mysqldbs = new PDO('mysql:host=localhost;dbname=assignment', $user, $pass);
-$mysqldbs->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
 function getSingleValue($conn, $sql, $parameters)
 {
     $q = $conn->prepare($sql);

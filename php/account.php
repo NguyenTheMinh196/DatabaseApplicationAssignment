@@ -1,16 +1,10 @@
 <?php
 session_start();
+require_once('config_sql.php');
 // select a database
 // $seller_id = $_SESSION['desd'];
 $seller_id = 2147483647; //currently using hardcode
-$db_user = "root";
-$db_pass = "";  
-$db_name = "assignment";
-
-
-$sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
-$sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$user_sql = $sqldb->query("SELECT * FROM users U ");
+$user_sql = $sql->query("SELECT * FROM users U ");
 $user_data = $user_sql->fetch();
 ?>
 <!DOCTYPE html>

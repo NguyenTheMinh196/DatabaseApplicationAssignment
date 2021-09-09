@@ -10,7 +10,7 @@ CREATE TABLE `product` (
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 SET time_zone = '+07:00'
-INSERT INTO `product` (`name`, `id`, `minimumprice`, `closingtime`, `sellerid`, `buyerid`, `bidplaced`) VALUES
+INSERT INTO `product` (`name`, `id`, `minimumprice`, `closingtime`, `sellerid`, `buyerid`, `bidplaced`, `status`) VALUES
 ("rolex", 1, 15000000, '2021-08-31', 12341245 , 2147483647, 1,"sold"),
 ("drone", 2, 3000000, '2021-09-02', 2147483647, 12341245, 2,"sold"),
 ("Honeypot", 3, 150000, '2021-08-31', 12341245, 2147483647, 1,"sold"))

@@ -1,21 +1,16 @@
 
 
 <?php    
-    $db_user = "root";
-    $db_pass = "";  
-    $db_name = "assignment";
-
-    $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
-    $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $update = $sqldb->prepare('UPDATE users SET balance = ? WHERE ID = ?');
+    require_once('config_sql.php');
+    $update = $sql->prepare('UPDATE users SET balance = ? WHERE ID = ?');
     $id = $_GET['user'];
-    $getuser = $sqldb->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch, U.balance FROM users U WHERE U.ID = '.$id);
+    $getuser = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch, U.balance FROM users U WHERE U.ID = '.$id);
    // get values form input text and number
    
    if(isset($_POST['update'])){
     $new_balance = $_POST['new_balance'];
     $status = $update->execute([$new_balance, $id]);
-    $getuser = $sqldb->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch, U.balance FROM users U WHERE U.ID = '.$id);
+    $getuser = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch, U.balance FROM users U WHERE U.ID = '.$id);
     echo('<div style = "position: absolute;
     left: 50%;
     top: 50%;

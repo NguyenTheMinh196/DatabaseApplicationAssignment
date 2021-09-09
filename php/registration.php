@@ -1,5 +1,5 @@
 <?php
-require_once('config.php');
+require_once('config_sql.php');
 ?>
 
 <!DOCTYPE html>
@@ -28,7 +28,7 @@ if(isset($_POST['create'])){
     $image	= $_POST['image'];
 
 		$sql = "INSERT INTO users (firstname, lastname,username , email, phonenumber, password , ID , address , city , country , image ) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
-		$stmtinsert = $db->prepare($sql);
+		$stmtinsert = $sql->prepare($sql);
 		$result = $stmtinsert->execute([$firstname, $lastname,$username , $email, $phonenumber, $password, $ID, $address, $city,$country,$image]);
 		if($result){
 			echo 'Successfully saved.';

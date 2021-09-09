@@ -1,20 +1,11 @@
 <?php
 session_start();
-require '../vendor/autoload.php';
-$conn = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
-// select a database
-$db = $conn->admin;
-$collection = $db->products;
+require_once('config_mongodb.php');
+require_once('config_sql.php');
 // $seller_id = $_SESSION['desd'];
 $seller_id = 2147483647; //currently using hardcode
-$db_user = "root";
-$db_pass = "";  
-$db_name = "assignment";
 
-
-$sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
-$sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$product_sql = $sqldb->prepare("INSERT INTO product(name, minimumprice, closingtime, sellerid, bidplaced, status) VALUES(?, ?, ?, ?, 0, 0)");
+$product_sql = $sql->prepare('INSERT INTO product(name, minimumprice, closingtime, sellerid, bidplaced, status) VALUES(?, ?, ?, ?, 0, "not sold")');
 
 if(isset($_POST['name'])){
     $name=$_POST['name'];
@@ -29,7 +20,7 @@ if(isset($_POST['name'])){
     $product_sql->execute([$name, $price, $closing_time, $seller_id]);
     
     if(isset($_POST['key'])){
-        $last_id = $sqldb->LastInsertId();
+        $last_id = $sql->LastInsertId();
         $count = count($_POST['key']);
         $document = array();
         $document['_id'] = $last_id;

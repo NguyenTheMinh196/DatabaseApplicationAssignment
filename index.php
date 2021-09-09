@@ -1,34 +1,23 @@
 <?php
-require 'vendor/autoload.php';
-   // connect to mongodb
-   $connection = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
-   // select a database
-   $db = $connection->asm;
-   $collection = $db->test;
-   $db_user = "root";
-    $db_pass = "";  
-    $db_name = "assignment";
-
-    $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
-    $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = 0;');
+require_once('php/config_sql.php');
+    $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = "not sold";');
 
     if(isset($_POST['search'])){
         $product_name 		= $_POST['name_search'];
-        $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%" AND P.status = 0;');
+        $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%" AND P.status = "not sold";');
 
     };
     if(isset($_POST['sort'])){
         $type 		= $_POST['sort_column_type'];
         $column_name 		= $_POST['sort_column_name'];
         if($column_name == "closing_time"){
-            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.closingtime '.$type.' AND P.status = 0;');
+            $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.closingtime '.$type.' AND P.status = "not sold";');
         }
         elseif($column_name == "current_bid_price"){
-            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.minimumprice '.$type.' AND P.status = 0;');
+            $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.minimumprice '.$type.' AND P.status = "not sold";');
         }
         elseif($column_name == "the_number_of_bids_placed"){
-            $display = $sqldb->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.bidplaced '.$type.' AND P.status = 0;');
+            $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.bidplaced '.$type.' AND P.status = "not sold";');
 
         }
     };
@@ -36,25 +25,6 @@ require 'vendor/autoload.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
-<?php
-if(isset($_POST['search'])){
-    $transaction_start_date 	= $_POST['start_date'];
-    $transaction_end_date 		= $_POST['end_date'];
-    $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
-    FROM transaction T JOIN users U ON U.ID = T.sellerid
-    JOIN users U1 ON U1.ID = T.buyerid
-    WHERE T.closingtime >= "'.$transaction_start_date.'" AND T.closingtime <="'.$transaction_end_date.'";');
-    };
-    if(isset($_POST['search'])){
-    $transaction_start_date 	= $_POST['start_date'];
-    $transaction_end_date 		= $_POST['end_date'];
-    
-    $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
-    FROM transaction T JOIN users U ON U.ID = T.sellerid
-    JOIN users U1 ON U1.ID = T.buyerid
-    WHERE T.closingtime BETWEEN "'.$transaction_start_date.'" AND "'.$transaction_end_date.'";');
-    };
-?>
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -160,7 +130,6 @@ if(isset($_POST['search'])){
                 <!-- product 1 -->
                 <?php
 
-                $data = $collection->find();
                 foreach ($display as $row) {
                     echo('<a class = "link_to_prod" href = "php/bid.php?product=' . $row["id"] . '">');
                     echo('<div class = "oneproduct">');
@@ -254,61 +223,3 @@ if(isset($_POST['search'])){
 </body>
 </script>
 </html>
-
-
-// } {
-//     "_id": 2,
-//     "name": "Drone",
-//     "seller_id": 2147483647,
-//     "openingDate": {
-//         "$date": "2011-08-26T11:22:33.111Z"
-//     },
-//     "closingDate": {
-//         "$date": "2021-08-26T11:22:33.111Z"
-//     },
-//     "openingprice": 5000000,
-//     "minimumprice": 12000000,
-//     "status": "open"
-// } {
-//     "_id": 3,
-//     "name": "Honeypot",
-//     "seller_id": 12341245,
-//     "openingDate": {
-//         "$date": "2011-08-26T11:22:33.111Z"
-//     },
-//     "closingDate": {
-//         "$date": "2021-08-26T11:22:33.111Z"
-//     },
-//     "openingprice": 150000,
-//     "minimumprice": 320000,
-//     "status": "open"
-// } {
-//     "_id": 4,
-//     "name": "iphone",
-//     "sellerid": 2147483647,
-//     "openingDate": {
-//         "$date": "2011-08-26T11:22:33.111Z"
-//     },
-//     "closingDate": {
-//         "$date": "2021-08-23T11:22:33.111Z"
-//     },
-//     "openingprice": 100000000,
-//     "closingprice": 154000000,
-//     "status": "closed"
-// }
-// {
-//     "_id": 1,
-//     "name": "rolex",
-//     "seller_id": 2147483647,
-//     "buyer_id": 12341245,
-//     "openingprice": 100000000,
-//     "openingDate": {
-//         "$date": "2011-08-26T11:22:33.111Z"
-//     },
-//     "closingDate": {
-//         "$date": "2021-08-23T11:22:33.111Z"
-//     },
-//     "closingprice": 154000000,
-//     "status": "closed"
-// }
-//$product->closingDate->toDateTime()->format('Y/m/d')

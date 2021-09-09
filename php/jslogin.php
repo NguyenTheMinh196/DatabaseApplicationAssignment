@@ -7,7 +7,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 
 $sql = "SELECT * FROM users WHERE email = ? AND password = ? LIMIT 1";
-$stmtselect  = $db->prepare($sql);
+$stmtselect  = $sql->prepare($sql);
 $result = $stmtselect->execute([$username, $password]);
 
 if($result){
