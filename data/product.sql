@@ -6,13 +6,14 @@ CREATE TABLE `product` (
   `sellerid` int(100) NOT NULL,
   `buyerid` int(100),
   `bidplaced` int(100) NOT NULL,
+  `status` varchar(30) NOT NULL,
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 SET time_zone = '+07:00'
 INSERT INTO `product` (`name`, `id`, `minimumprice`, `closingtime`, `sellerid`, `buyerid`, `bidplaced`) VALUES
-("rolex", 1, 15000000, '2021-08-31', 12341245 , 2147483647, 1),
-("drone", 2, 3000000, '2021-09-02', 2147483647, 12341245, 2),
-("Honeypot", 3, 150000, '2021-08-31', 12341245, 2147483647, 1))
+("rolex", 1, 15000000, '2021-08-31', 12341245 , 2147483647, 1,"sold"),
+("drone", 2, 3000000, '2021-09-02', 2147483647, 12341245, 2,"sold"),
+("Honeypot", 3, 150000, '2021-08-31', 12341245, 2147483647, 1,"sold"))
   UPDATE product set bidplaced = bidplaced + 1;
 
 DELIMITER $$
