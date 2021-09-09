@@ -14,10 +14,14 @@ $db_name = "assignment";
 
 $sqldb = new PDO('mysql:host=localhost;dbname=' . $db_name .';charset=utf8',$db_user, $db_pass);
 $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+$soldproduct = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
-    WHERE T.sellerid="'.$user_id.'" OR T.buyerid="'.$user_id.'"');
+    WHERE T.sellerid = "'.$user_id.'" AND T.status = 1;');
+$broughtproduct = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+    FROM transaction T JOIN users U ON U.ID = T.sellerid
+    JOIN users U1 ON U1.ID = T.buyerid
+    WHERE T.buyerid = "'.$user_id.'" AND T.status = 1;');
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -90,8 +94,9 @@ $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstna
         </div>
         
             <div class = "market_section">
-                <div class = "onetransaction">
+            <h1 style = "text-align: center"> Sold products: </h1>
 
+                <div class = "onetransaction"  style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">
                     <div class = "product_name section">                
                         Product's name
                     </div>
@@ -104,19 +109,19 @@ $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstna
                     <div class = "closing_time section">
                         Closing time:
                     </div>
-                    <div class = "current_highest_bid">
+                    <div class = "current_highest_bid section">
                         Price:
                     </div>
                     <div class = "status section">
                         Status:
                     </div>
-            </div>
+                </div>
                 <!-- product 1 -->
                 <?php
 
                 $data = $collection->find();
-                foreach ($display as $row) {
-                    echo('<div class = "onetransaction">');
+                foreach ($soldproduct as $row) {
+                    echo('<div class = "onetransaction" style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">');
                     echo('<div class = "product_name section product">');
                     echo($row['name']);
                     echo('</div>');
@@ -137,7 +142,58 @@ $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstna
                     echo('</div>');
                     echo('</div>');
                 }?>
-            
+            </div>
+            <div class = "market_section">
+            <h1 style = "text-align: center"> Brought products: </h1>
+
+                <div class = "onetransaction"  style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">
+                    <div class = "product_name section">                
+                        Product's name
+                    </div>
+                    <div class = "seller section">
+                        Seller
+                    </div>
+                    <div class = "buyer section">
+                        Current buyer:
+                    </div>
+                    <div class = "closing_time section">
+                        Closing time:
+                    </div>
+                    <div class = "current_highest_bid section">
+                        Price:
+                    </div>
+                    <div class = "status section">
+                        Status:
+                    </div>
+                </div>
+                <!-- product 1 -->
+                <?php
+
+                $data = $collection->find();
+                foreach ($broughtproduct as $row) {
+                    echo('<div class = "onetransaction"  style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">');
+                    echo('<div class = "product_name section product">');
+                    echo($row['name']);
+                    echo('</div>');
+                    echo('<div class = "seller section product">');
+                    echo($row['Seller']);
+                    echo('</div>');
+                    echo('<div class = "buyer section product">');
+                    echo($row['Buyer']);
+                    echo('</div>');
+                    echo('<div class = "closing_time section product">');
+                    echo($row['closingtime']);
+                    echo('</div>');
+                    echo('<div class = "current_highest_bid section product">');
+                    echo($row['price']);
+                    echo('</div>');
+                    echo('<div class = "status section product">');
+                    echo($row['status']);
+                    echo('</div>');
+                    echo('</div>');
+                }?>
+            </div>
+    </div>      
 </body>
 </script>
 </html>

@@ -3,9 +3,8 @@ require '../vendor/autoload.php';
    // connect to mongodb
    $connection = new MongoDB\Client("mongodb://localhost:27017"); // connects to localhost:27017
    // select a database
-   $db = $connection->asm;
-   $collection = $db->test;
-   $name='rolex';
+   $db = $connection->assignment;
+   $collection = $db->product;
    $db_user = "root";
     $db_pass = "";  
     $db_name = "assignment";
@@ -14,7 +13,8 @@ require '../vendor/autoload.php';
     $sqldb->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
-    JOIN users U1 ON U1.ID = T.buyerid;');
+    JOIN users U1 ON U1.ID = T.buyerid
+    WHERE T.status = 1;');
 
     if(isset($_POST['search'])){
     $transaction_start_date 	= $_POST['start_date'];
@@ -23,7 +23,7 @@ require '../vendor/autoload.php';
     $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
-    WHERE T.closingtime>="'.$transaction_start_date.'" AND "'.$transaction_end_date.'";');
+    WHERE T.status = 1 AND T.closingtime >= "'.$transaction_start_date.'" AND T.closingtime < "'.$transaction_end_date.'";');
     };
 ?>
 <!DOCTYPE html>
@@ -98,7 +98,7 @@ require '../vendor/autoload.php';
         </div>
         
             <div class = "market_section">
-                <div class = "onetransaction">
+                <div class = "onetransaction" style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">
 
                     <div class = "product_name section">                
                         Product's name
@@ -112,7 +112,7 @@ require '../vendor/autoload.php';
                     <div class = "closing_time section">
                         Closing time:
                     </div>
-                    <div class = "current_highest_bid">
+                    <div class = "current_highest_bid section">
                         Price:
                     </div>
                     <div class = "status section">
@@ -124,7 +124,7 @@ require '../vendor/autoload.php';
 
                 $data = $collection->find();
                 foreach ($display as $row) {
-                    echo('<div class = "onetransaction">');
+                    echo('<div class = "onetransaction" style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">');
                     echo('<div class = "product_name section product">');
                     echo($row['name']);
                     echo('</div>');
@@ -145,6 +145,9 @@ require '../vendor/autoload.php';
                     echo('</div>');
                     echo('</div>');
                 }?>
+                </div>
+            </div>
+
             
 </body>
 </script>
