@@ -56,7 +56,7 @@
 .body .market_section .onetransaction {
   display: grid;
   grid-template-columns: 15% 15% 15% 15% 15% 15% 15%;
-  padding: 0px 5px 10px 5px;
+  padding: 0px 10px 20px 10px;
   border-top: 1px rgb(70, 69, 69) solid;
   width: 100%;
 }

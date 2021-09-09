@@ -15,7 +15,7 @@ require '../vendor/autoload.php';
     $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid;');
-
+   
     if(isset($_POST['search'])){
     $transaction_start_date 	= $_POST['start_date'];
     $transaction_end_date 		= $_POST['end_date'];
@@ -25,7 +25,32 @@ require '../vendor/autoload.php';
     JOIN users U1 ON U1.ID = T.buyerid
     WHERE T.closingtime>="'.$transaction_start_date.'" AND T.closingtime<="'.$transaction_end_date.'";');
     };
-    
+    if(isset($_POST['cancel'])){
+        $id=$_POST['id'];
+
+        $display = $sqldb->query('SELECT id, buyerid, sellerid, price, status FROM transaction
+        WHERE id="'.$id.'";');
+        $table=$display->fetch(PDO::FETCH_BOTH);
+
+        $sellerid=$table['sellerid'];
+        $status=$table['status'];
+        $buyerid=$table['buyerid'];
+        $price=$table['price'];
+        if($status="not sold"){
+            $product_sql = $sqldb->prepare('UPDATE users SET balance=balance+"'.$price.'" WHERE id="'.$buyerid.'";');
+            $product_sql->execute();
+        } else if($status="sold") {
+            $product_sql = $sqldb->prepare('UPDATE users SET balance=balance+"'.$price.'" WHERE id="'.$buyerid.'";');
+            $product_sql->execute();
+            $product_sql = $sqldb->prepare('UPDATE users SET balance=balance-"'.$price.'" WHERE id="'.$buyerid.'";');
+            $product_sql->execute();
+        }
+        $product_sql = $sqldb->prepare('UPDATE transaction SET status="canceled" WHERE id="'.$id.'";');
+            $product_sql->execute();
+        $display = $sqldb->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+        FROM transaction T JOIN users U ON U.ID = T.sellerid
+        JOIN users U1 ON U1.ID = T.buyerid;');
+        };
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -95,17 +120,23 @@ require '../vendor/autoload.php';
         <input type = "Date" name="end_date" value = "<?php echo date("Y-m-d") ?>"><br>
                 <button type="submit" name = "search" class = "submit_button"><i class="fa fa-search"></i></button>
         </form>
-        
+        <form class="cancel" method ="post">
+            <label for ="transaction_id">Transaction id:</label>
+            <input type="number" name="id" value=null>
+            <button type="submit" name="cancel" class="submit_button">Cancel</button>?
+        </form>
         </div>
         
             <div class = "market_section">
                 <div class = "onetransaction">
-
+                <div class = "transaction_id section">                
+                        Transaction ID:
+    </div>
                     <div class = "product_name section">                
                         Product's name
                     </div>
                     <div class = "seller section">
-                        Seller
+                        Seller:
                     </div>
                     <div class = "buyer section">
                         Current buyer:
@@ -119,13 +150,16 @@ require '../vendor/autoload.php';
                     <div class = "status section">
                         Status:
                     </div>
-            </div>
+                </div>
                 <!-- product 1 -->
                 <?php
 
                 $data = $collection->find();
                 foreach ($display as $row) {
                     echo('<div class = "onetransaction">');
+                    echo('<div class = "transaction_id section product">');
+                    echo($row['id']);
+                    echo('</div>');
                     echo('<div class = "product_name section product">');
                     echo($row['name']);
                     echo('</div>');
