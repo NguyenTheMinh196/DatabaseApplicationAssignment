@@ -130,9 +130,11 @@ DELIMITER $$
         IF transaction.status="sold" THEN
         	UPDATE users SET balance  = balance + productprice WHERE ID=productbuyerid;
         	UPDATE users SET balance  = balance - productprice WHERE ID=productsellerid;
-        	COMMIT;
+		UPDATE transaction SET status = "canceled" WHERE id= transactionID;
+        	COMMIT;	
         ELSEIF (transaction.status="not sold") THEN
         	UPDATE users SET balance  = balance + productprice WHERE ID=productbuyerid;
+	UPDATE transaction SET status = "canceled" WHERE id= transactionID;
         	COMMIT;
         END IF;
                 

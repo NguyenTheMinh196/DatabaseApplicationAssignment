@@ -1,4 +1,25 @@
-<?php include('config2.php'); ?>
+<?php include('config2.php'); 
+require('config_sql.php');
+if(isset($_POST['cancel'])){
+    
+    try{
+        $id=$_POST['id'];
+        $cancel =$sql->query('CALL refund("'.$id.'")');
+        echo('<div style = "position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    border: 5px solid #FFFF00;
+    padding: 10px;">
+        Transaction has been canceled!
+    </div>');
+       }
+       catch(PDOException $e){
+        die("Error occurred:" . $e->getMessage());
+       }
+    };
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,6 +49,14 @@
                 <div>
                     <nav class = "menu">
                     <ul>
+                        <div class="toolbar">
+                        <form class="cancel" method ="post">
+            <label for ="transaction_id">Transaction id:</label>
+            <input type="number" name="id" value=null>
+            <button type="submit" name="cancel" class="submit_button">Cancel</button>?
+        </form>
+                        </div>
+                   
                         <a href = "#"><li> Home </li></a>
                         <a href = "#"><li> Sell product </li></a>
                         <a href = "#"><li> Account </li></a>
