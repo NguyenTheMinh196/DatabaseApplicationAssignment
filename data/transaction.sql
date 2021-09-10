@@ -29,3 +29,22 @@ BEGIN
 					COMMIT;
             END IF;
 END
+
+CREATE PROCEDURE trade (IN productID INT)
+BEGIN
+	DECLARE currentbuyerid INT;
+    DECLARE productprice INT;
+	DECLARE currentsellerid INT;
+
+	START TRANSACTION;
+        SELECT buyerid, price, sellerid INTO currentbuyerid, productprice, currentsellerid FROM transaction WHERE id = productID;
+		IF  currentbuyerid <> NULL THEN
+			UPDATE users SET balance = balance - productprice WHERE ID = currentbuyerid;
+			UPDATE users SET balance = balance + productprice WHERE ID = currentsellerid;
+			UPDATE product SET status = "sold" WHERE id = productID;
+            COMMIT;
+		ELSEIF (currentbuyerid = NULL) THEN
+			UPDATE product SET status = "canceled" WHERE id = productID;
+            COMMIT;
+        END IF;
+END
