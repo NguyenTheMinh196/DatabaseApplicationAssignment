@@ -1,4 +1,5 @@
 <?php
+include('php/userlogincheck.php') ;
 require_once('php/config_sql.php');
     $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = "not sold";');
 
@@ -55,6 +56,9 @@ require_once('php/config_sql.php');
                         <a href = "#"><li> Home </li></a>
                         <a href = "#"><li> Sell product </li></a>
                         <a href = "#"><li> Account </li></a>
+                        
+                        <li><a href="php/logout_user.php">Log out</a></li>
+           
                     </ul>
                     </nav>
                 </div>
