@@ -9,6 +9,10 @@ $boughtproduct = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.fir
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
     WHERE T.buyerid = "'.$user_id.'" AND (T.status = "sold" OR T.status = "canceled");');
+$biddingproduct = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
+    FROM transaction T JOIN users U ON U.ID = T.sellerid
+    JOIN users U1 ON U1.ID = T.buyerid
+    WHERE (T.buyerid = "'.$user_id.'" OR T.sellerid ="'.$user_id.'") AND (T.status = "not sold");');
 
 ?>
 <!DOCTYPE html>
@@ -70,17 +74,57 @@ $boughtproduct = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.fir
         </div>
         <div class = "body_container">
         </div>
-        <div class="toolbar">
-        <form class = "search" method = "post">
-        <label for = "closing_time">Start date:</label>
-        <input type = "Date" name="start_date" value = "<?php echo date("Y-m-d") ?>"><br>
-        <label for = "closing_time">End date:</label>    
-        <input type = "Date" name="end_date" value = "<?php echo date("Y-m-d") ?>"><br>
-                <button type="submit" name = "search" class = "submit_button"><i class="fa fa-search"></i></button>
-        </form>
-        
-        </div>
-        
+
+            
+        <div class = "market_section">
+            <h1 style = "text-align: center"> Bidding products: </h1>
+
+                <div class = "onetransaction"  style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">
+                    <div class = "product_name section">                
+                        Product's name
+                    </div>
+                    <div class = "seller section">
+                        Seller
+                    </div>
+                    <div class = "buyer section">
+                        Current buyer:
+                    </div>
+                    <div class = "closing_time section">
+                        Closing time:
+                    </div>
+                    <div class = "current_highest_bid section">
+                        Price:
+                    </div>
+                    <div class = "status section">
+                        Status:
+                    </div>
+                </div>
+                <!-- product 1 -->
+                <?php
+
+                foreach ($biddingproduct as $row) {
+                    echo('<div class = "onetransaction" style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">');
+                    echo('<div class = "product_name section product">');
+                    echo($row['name']);
+                    echo('</div>');
+                    echo('<div class = "seller section product">');
+                    echo($row['Seller']);
+                    echo('</div>');
+                    echo('<div class = "buyer section product">');
+                    echo($row['Buyer']);
+                    echo('</div>');
+                    echo('<div class = "closing_time section product">');
+                    echo($row['closingtime']);
+                    echo('</div>');
+                    echo('<div class = "current_highest_bid section product">');
+                    echo($row['price']);
+                    echo('</div>');
+                    echo('<div class = "status section product">');
+                    echo($row['status']);
+                    echo('</div>');
+                    echo('</div>');
+                }?>
+            </div>
             <div class = "market_section">
             <h1 style = "text-align: center"> Sold products: </h1>
 
@@ -131,7 +175,7 @@ $boughtproduct = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.fir
                 }?>
             </div>
             <div class = "market_section">
-            <h1 style = "text-align: center"> Brought products: </h1>
+            <h1 style = "text-align: center"> Bought products: </h1>
 
                 <div class = "onetransaction"  style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">
                     <div class = "product_name section">                
@@ -156,7 +200,7 @@ $boughtproduct = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.fir
                 <!-- product 1 -->
                 <?php
 
-                foreach ($broughtproduct as $row) {
+                foreach ($boughtproduct as $row) {
                     echo('<div class = "onetransaction"  style = "grid-template-columns: 25% 15% 15% 25% 15% 05%">');
                     echo('<div class = "product_name section product">');
                     echo($row['name']);

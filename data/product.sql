@@ -17,11 +17,9 @@ INSERT INTO `product` (`name`, `id`, `minimumprice`, `closingtime`, `sellerid`, 
   UPDATE product set bidplaced = bidplaced + 1;
 
 DELIMITER $$
-CREATE TRIGGER minimumprice_update
-BEFORE UPDATE ON product.minimumprice
-AS
-begin
-  UPDATE product set bidplaced = bidplaced + 1 WHERE id = NEW.id;
+CREATE TRIGGER minimumprice_update BEFORE UPDATE ON product.minimumprice
+BEGIN
+  UPDATE product SET bidplaced = bidplaced + 1 WHERE id = NEW.id;
   IF OLD.minimumprice >= NEW.minimumprice THEN
   SIGNAL SQLSTATE '45000' set message_text = "the new bid price must be higher than the minimum price";
   END IF;
@@ -33,7 +31,7 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER minimumprice_update
 BEFORE UPDATE ON product.minimumprice
-AS BEGIN
+BEGIN
   IF minimumprice >= NEW.minimumprice THEN
   SIGNAL SQLSTATE '45000' set message_text = "the new bid price must be higher than the minimum price";
   END IF;
@@ -50,7 +48,6 @@ BEGIN
 	DECLARE productbuyerid INT;
     DECLARE productprice INT;
 	START TRANSACTION;
-  	INSERT INTO WORKS_ON VALUES (employeeID, projectNumber, numberHours);
         SELECT buyerid, price INTO productbuyerid, productprice FROM transaction WHERE id = productID;
 		IF  productbuyerid = userID THEN
 			UPDATE users SET balance = balance + productprice - bidprice WHERE ID = productbuyerid;
