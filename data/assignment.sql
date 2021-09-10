@@ -118,3 +118,23 @@ DELIMITER ;
 DELIMITER $$
 create trigger check_minimumprice before update on product FOR EACH ROW begin IF OLD.minimumprice >= NEW.minimumprice THEN SIGNAL SQLSTATE '45000' set message_text = "the new bid price must be higher than the minimum price"; END IF; END $$
 DELIMITER ;
+-- cancel transaction
+DELIMITER $$
+    CREATE PROCEDURE refund (IN transactionID INT)
+        BEGIN
+        DECLARE productbuyerid INT;
+        DECLARE productsellerid INT;
+        DECLARE productprice INT;
+        START TRANSACTION;
+        	SELECT sellerid, buyerid, price INTO productsellerid, productbuyerid, productprice FROM transaction WHERE id = transactionID;
+        IF transaction.status="sold" THEN
+        	UPDATE users SET balance  = balance + productprice WHERE ID=productbuyerid;
+        	UPDATE users SET balance  = balance - productprice WHERE ID=productsellerid;
+        	COMMIT;
+        ELSEIF (transaction.status="not sold") THEN
+        	UPDATE users SET balance  = balance + productprice WHERE ID=productbuyerid;
+        	COMMIT;
+        END IF;
+                
+        END $$
+        DELIMITER ;
