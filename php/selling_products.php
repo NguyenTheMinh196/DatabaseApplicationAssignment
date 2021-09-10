@@ -47,7 +47,9 @@
             <button onclick = 'createDiv(0)' type = 'button' id = 'currentbutton_0'> + </button>
             <input type = "submit" value = "Sell" name ="sell">
         </form>
+
     </div>
+
     </body>
     <script type = "text/javascript">
         function createDiv(current_attribute)
