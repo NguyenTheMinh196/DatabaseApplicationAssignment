@@ -7,7 +7,7 @@ $seller_id = 2147483647; //currently using hardcode
 
 $product_sql = $sql->prepare('INSERT INTO product(name, minimumprice, closingtime, sellerid, bidplaced, status) VALUES(?, ?, ?, ?, 0, "not sold")');
 
-if(isset($_POST['name'])){
+if(isset($_POST['sell'])){
     $name=$_POST['name'];
     $price=$_POST['minimum_price'];
     $date=$_POST['closing_date'];
