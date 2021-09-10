@@ -9,6 +9,7 @@ require_once('config_sql.php');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Registration</title>
+    
 </head>
 <body>
     <div>
@@ -83,5 +84,6 @@ if(isset($_POST['create'])){
         </div>
         </form>
     </div>
+
 </body>
 </html>

@@ -6,9 +6,8 @@ SELECT id, name, closingtime, minimumprice AS price, sellerid, buyerid, status F
 CREATE PROCEDURE bid (IN userID INT, IN productID INT, IN bidplaced INT)
 BEGIN
 	DECLARE currentproductbuyerid INT;
-    DECLARE productprice INT;
+    	DECLARE productprice INT;
 	START TRANSACTION;
-
         SELECT buyerid, price INTO currentproductbuyerid, productprice FROM transaction WHERE id = productID;
 		IF  currentproductbuyerid = userID THEN
 			UPDATE users SET balance =(balance + productprice - bidprice) WHERE ID = userID;
