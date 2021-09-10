@@ -1,4 +1,4 @@
-<?php require_once('config_sql.php'); ?>
+<?php include('config2.php');?>
 <head>
     <title>Login Admin</title>
   
@@ -56,11 +56,11 @@ if($count==1)
 {
     $_SESSION['login']="Login Successfully";
     $_SESSION['user']= $username;
-    header('location:'.SITEURL.'admin.php');
+    header('location:admin.php');
 }
 else {
     $_SESSION['login']="Username and Password did not match";
-    header('location:'.SITEURL.'login_admin.php');
+    header('location:login_admin.php');
 }
 
 }

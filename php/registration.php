@@ -1,5 +1,5 @@
 <?php
-require_once('config_sql.php');
+include('config.php');
 ?>
 
 <!DOCTYPE html>

@@ -1,4 +1,4 @@
-<?php include('config_sql.php'); ?>
+<?php include('config2.php'); ?>
 <head>
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -75,7 +75,7 @@ if($count==1)
 {
     $_SESSION['login']="Login Successfully";
     $_SESSION['user']= $username;
-    header('location:'.SITEURL.'index.php');
+    header('location:../index.php');
 }
 else {
     $_SESSION['login']="Username and Password did not match";
