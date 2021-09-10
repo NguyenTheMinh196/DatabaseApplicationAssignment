@@ -1,5 +1,6 @@
 <?php include('config2.php'); 
 require('config_sql.php');
+
 if(isset($_POST['cancel'])){
     
     try{

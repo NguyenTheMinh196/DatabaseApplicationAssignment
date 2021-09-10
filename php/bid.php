@@ -11,8 +11,7 @@ require_once('config_sql.php');
    if(isset($_POST['bid'])){
        try{
         $bidding_price 		= $_POST['bidding_price'];
-        $sql = 'CALL bid('. (int)$user_id . ', '.(int)$id_product .', '.(int)$bidding_price.')';
-        $bid = $sql->query($sql);
+        $bid = $sql->query('CALL bid('. (int)$user_id . ', '.(int)$id_product .', '.(int)$bidding_price.')');
         $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname, U.balance FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
         $product_data = $display->fetch();
         echo('<div style = "position: absolute;
