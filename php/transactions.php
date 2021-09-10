@@ -34,6 +34,7 @@ require_once('config_sql.php');
             $product_sql = $sql->prepare('UPDATE users SET balance=balance-"'.$price.'" WHERE id="'.$buyerid.'";');
             $product_sql->execute();
         }
+    
         $product_sql = $sql->prepare('UPDATE transaction SET status="canceled" WHERE id="'.$id.'";');
             $product_sql->execute();
         $display = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 

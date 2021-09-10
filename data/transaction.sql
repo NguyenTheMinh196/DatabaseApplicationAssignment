@@ -28,3 +28,23 @@ BEGIN
 					COMMIT;
             END IF;
 END
+
+DELIMITER $$
+        CREATE PROCEDURE refund (IN transactionID INT)
+        BEGIN
+        DECLARE productbuyerid INT;
+        DECLARE productsellerid INT;
+        DECLARE productprice INT;
+        START TRANSACTION;
+        SELECT sellerid INTO productsellerid, buyerid INTO productbuyerid, price INTO productprice FROM transaction WHERE id = transactionID;
+        IF transaction.status="sold" THEN
+        UPDATE users SET balance  = balance + productprice WHERE ID=productbuyerid;
+        UPDATE users SET balance  = balance - productprice WHERE ID=productsellerid;
+        COMMIT;
+        ELSEIF transaction.status="not sold" THEN
+        UPDATE users SET balance  = balance + productprice WHERE ID=productbuyerid;
+        COMMIT;
+        END IF;
+                
+        END $$
+        DELIMITER ;
