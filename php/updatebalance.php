@@ -1,6 +1,15 @@
 
 
 <?php    
+require_once('logincheck.php');
+if(!isset($_SESSION['user']))
+{
+   $_SESSION['no-login-message']="Please log in to access Menu ";
+   header('location:login.php');
+}
+    $user = $_SESSION['user'];
+    $getuser_ava = $sql->query('SELECT image from users WHERE ID = '.$user.'');
+    $ava = $getuser_ava->fetch();
     require_once('config_sql.php');
     $update = $sql->prepare('UPDATE users SET balance = ? WHERE ID = ?');
     $id = $_GET['user'];
@@ -33,17 +42,59 @@
 
 <html>
 
-    <head>
+        <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>update balance</title>
 
-        <title>  UPDATE BALANCE </title>
-
-        <meta charset="UTF-8">
-
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    </head>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
+</head>
 
     <body>
+        <!-- start header -->
+    <header>
+        <div>
+            <!--header  (Name of the market)-->
+            <div class = "header"> 
+                <div style = "justify-content: flex-start" class = "container">
+                    <div class = "page_ava">
+                        <img src="../img/avatar-1.jpg" alt = "market_pic" class = "page_symbol">
+                        </div>
+                    <div class = "Name" style= "text-align: center">
+                        <p style = "vertical: center">Name of the market</p>
+                    </div>
+                </div>
+                <div>
+                    <nav class = "menu">
+                    <ul>
+                        <a href = "../index.php"><li> Home for user </li></a>
+                        <a href = "admin.php"><li> Admin Home </li></a>
+                        <a href = "selling_products"><li> Sell product </li></a>
+                        <a href = "account.php"><li> Account </li></a>
+                        <a href="logout.php"><li>Log out</li></a>
+                    </ul>
+                    </nav>
+                </div>
+                <div style = "justify-content: flex-end" class = "container">
+                    <div id = "User_name">
+                        <p><i class="fas fa-caret-down"></i> name</p>
+                        <div class = "More_info_name">
+                        <a href = "account.php">Account</a>
+                        <a href = "pastTransactions.php">Past transaction</a>
+                        </div>
+                    </div>
+                    <div>
+                    <?php
+                        echo('<img src="data:image/jpeg;base64,'.base64_encode( $ava['image'] ).'"  alt = "avatar" class = "profile_pic">');
+                    ?>
+                    </div>
+                </div>
+            </div>
+            <!--Nav bar--> 
+        </div>
+    </header>
         <div>
             <h1>
                 UPDATE BALANCE

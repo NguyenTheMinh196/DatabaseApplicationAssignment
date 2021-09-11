@@ -161,5 +161,3 @@ BEGIN
                 
         END $$
         DELIMITER ;
-ALTER TABLE users ADD CONSTRAINT phone UNIQUE(phonenumber );
-ALTER TABLE users ADD CONSTRAINT phone UNIQUE( email );

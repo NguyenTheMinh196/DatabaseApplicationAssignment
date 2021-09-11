@@ -1,4 +1,4 @@
-<?php include('config_sql.php'); ?>
+<?php require_once('config_sql.php'); ?>
 <?php
     if(!isset($_SESSION['user']))
     {

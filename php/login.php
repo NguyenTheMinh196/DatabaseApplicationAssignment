@@ -32,13 +32,16 @@ session_start();?>
             
 
         <form action="" method="POST" class="text-center"> <br> <br>
-        Username: 
-        <input type="text" name="email" placeholder="Enter Username"> <br> <br>
+        Email: 
+        <input type="text" name="email" placeholder="Enter Email"> <br> <br>
          <br> <br>  Password: 
         <input type="password" name="password" placeholder="Enter Password"><br>
         <br> <br>
         <a href="phonelogin.php">Or log in with phone number</a>
         <br><br>
+        <a href="registration.php">Register</a>
+        <br><br>
+
         <input type="submit" name="submit" value="login" class="btn-primary">
 
 

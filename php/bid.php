@@ -1,17 +1,22 @@
 <?php
-session_start();
 require_once('config_mongodb.php');
-require_once('config_sql.php');
+require_once('logincheck.php');
+if(!isset($_SESSION['user']))
+{
+   $_SESSION['no-login-message']="Please log in to access Menu ";
+   header('location:login.php');
+}
+    $user = $_SESSION['user'];
+    $getuser_ava = $sql->query('SELECT image from users WHERE ID = '.$user.'');
+    $ava = $getuser_ava->fetch();
 
-   // $user_id = $_SESSION['desd'];
-    $user_id = 2147483647; //currently using hardcode
 
    $id_product = $_GET["product"];
 
    if(isset($_POST['bid'])){
        try{
         $bidding_price 		= $_POST['bidding_price'];
-        $bid = $sql->query('CALL bid('. (int)$user_id . ', '.(int)$id_product .', '.(int)$bidding_price.')');
+        $bid = $sql->query('CALL bid('. (int)$user . ', '.(int)$id_product .', '.(int)$bidding_price.')');
         $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname, U.balance FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
         $product_data = $display->fetch();
         echo('<div style = "position: absolute;
@@ -31,7 +36,7 @@ require_once('config_sql.php');
     $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname, U.balance, P.buyerid FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
     $product_data = $display->fetch();
     }
-    $user_info = $sql->query('SELECT balance FROM users WHERE ID = '.$user_id.';');
+    $user_info = $sql->query('SELECT balance FROM users WHERE ID = '.$user.';');
     $user_balance = $user_info->fetch();
 ?>
 <!DOCTYPE html>
@@ -40,27 +45,55 @@ require_once('config_sql.php');
         <meta charset="UTF-8">
         <title>Bidme - Online Bidding Platform</title>
         <link rel="stylesheet" href="../css/bid.module.css">
+        <link rel="stylesheet" href = "../css/style.css">
     </head>
     
     <body>
-        <div class="header">
-        <div class="container">
-            <div class="navbar">
-                <div class="logo">
-                    <img src="/Users/ADMIN/Desktop/picture/-1591253249203679369585.jpg" width="105px">
+        
+    <!-- start header -->
+    <header>
+        <div>
+            <!--header  (Name of the market)-->
+            <div class = "header"> 
+                <div style = "justify-content: flex-start" class = "container">
+                    <div class = "page_ava">
+                        <img src="../img/avatar-1.jpg" alt = "market_pic" class = "page_symbol">
+                    </div>
+                    <div class = "Name" style= "text-align: center">
+                        <p style = "vertical: center">Name of the market</p>
+                    </div>
                 </div>
-                <nav>
+                <div>
+                    <nav class = "menu">
                     <ul>
-                        <li><a href="">HOME</a></li>
-                        <li><a href="">PRODUCTS</a></li>
-                        <li><a href="">ABOUT</a></li>
-                        <li><a href="">CONTACT</a></li>
-                        <li><a href="">ACCOUNT</a></li>
-
+                        <a href = "../index.php"><li> Home </li></a>
+                        <a href = "selling_products"><li> Sell product </li></a>
+                        <a href = "account.php"><li> Account </li></a>
+                        <a href="logout.php"><li>Log out</li></a>
                     </ul>
-                </nav>
-                <img src="../img/avatar-1.jpg" width="30px" height="30px">
+                    </nav>
+                </div>
+                <div style = "justify-content: flex-end" class = "container">
+                    <div id = "User_name">
+                        <p><i class="fas fa-caret-down"></i> name</p>
+                        <div class = "More_info_name">
+                        <a href = "account.php">Account</a>
+                        <a href = "pastTransactions.php">Past transaction</a>
+                        </div>
+                    </div>
+                    <div>
+                    <?php
+                        echo('<img src="data:image/jpeg;base64,'.base64_encode( $ava['image'] ).'"  alt = "avatar" class = "profile_pic">');
+                    ?>
+                    </div>
+                </div>
             </div>
+            <!--Nav bar--> 
+        </div>
+    </header>
+        <div class="header1">
+            <div class="container">
+            
             <div class="row">
             <?php
                 $data = $collection->findOne(array('_id' => (int)$product_data['id']));

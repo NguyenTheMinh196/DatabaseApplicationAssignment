@@ -32,6 +32,8 @@
         <br> <br>
         <a href="login.php">Or log in with username</a>
         <br><br>
+        <a href="registration.php">Register</a>
+        <br><br>
         <input type="submit" name="submit" value="login" class="btn-primary">
 
 

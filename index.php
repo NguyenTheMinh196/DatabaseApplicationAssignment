@@ -1,13 +1,15 @@
 <?php
-session_start();
+session_Start();
 if(!isset($_SESSION['user']))
 {
    $_SESSION['no-login-message']="Please log in to access Menu ";
-   header('location:login.php');
+   header('location:php/login.php');
 }
 require_once('php/config_sql.php');
     $user = $_SESSION['user'];
-    
+    $getuser_ava = $sql->query('SELECT image from users WHERE ID = '.$user.'');
+    $ava = $getuser_ava->fetch();
+
     $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = "not sold";');
 
     if(isset($_POST['search'])){
@@ -52,8 +54,8 @@ require_once('php/config_sql.php');
             <div class = "header"> 
                 <div style = "justify-content: flex-start" class = "container">
                     <div class = "page_ava">
-                        <img src = "img/test_img.jpg" alt = "market_pic" class = "page_symbol">
-                    </div>
+                        <img src="img/avatar-1.jpg" alt = "market_pic" class = "page_symbol">
+                        </div>
                     <div class = "Name" style= "text-align: center">
                         <p style = "vertical: center">Name of the market</p>
                     </div>
@@ -64,9 +66,7 @@ require_once('php/config_sql.php');
                         <a href = "index.php"><li> Home </li></a>
                         <a href = "php/selling_products"><li> Sell product </li></a>
                         <a href = "php/account.php"><li> Account </li></a>
-            
                         <a href="php/logout.php"><li>Log out</li></a>
-           
                     </ul>
                     </nav>
                 </div>
@@ -74,12 +74,14 @@ require_once('php/config_sql.php');
                     <div id = "User_name">
                         <p><i class="fas fa-caret-down"></i> name</p>
                         <div class = "More_info_name">
-                        <a href = "#">Account</a>
-                        <a href = "#">Past transaction</a>
+                        <a href = "php/account.php">Account</a>
+                        <a href = "php/pastTransactions.php">Past transaction</a>
                         </div>
                     </div>
                     <div>
-                        <img src = "img/avatar-1.jpg" alt = "avatar" class = "profile_pic" >
+                    <?php
+                        echo('<img src="data:image/jpeg;base64,'.base64_encode( $ava['image'] ).'"  alt = "avatar" class = "profile_pic">');
+                    ?>
                     </div>
                 </div>
             </div>

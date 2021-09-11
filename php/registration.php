@@ -38,14 +38,8 @@ if(isset($_POST['create'])){
 		$query = 'INSERT INTO users (firstname, lastname,username , email, phonenumber, password, address, country , image, branch, balance ) VALUES(?,?,?,?,?,?,?,?,?,?,?)';
 		$stmtinsert = $sql->prepare($query);
 		$result = $stmtinsert->execute([$firstname, $lastname,$username , $email, $phonenumber, $password, $address,$country,$image, $branch, $balance]);
-		if($result){
-			echo 'Successfully saved.';
-		}else{
-			echo 'There were erros while saving the data.';
-		}
-}else{
-	echo 'No data';
-} ?>
+
+}?>
     </div>
 
 

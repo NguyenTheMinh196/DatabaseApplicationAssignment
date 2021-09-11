@@ -2,8 +2,7 @@
 session_start();
 require_once('config_mongodb.php');
 require_once('config_sql.php');
-// $seller_id = $_SESSION['desd'];
-$seller_id = 2147483647; //currently using hardcode
+$seller_id = $_SESSION['user'];
 
 $product_sql = $sql->prepare('INSERT INTO product(name, minimumprice, closingtime, sellerid, bidplaced, status) VALUES(?, ?, ?, ?, 0, "not sold")');
 

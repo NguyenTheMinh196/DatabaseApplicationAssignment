@@ -1,5 +1,13 @@
 <?php
-require_once('config_sql.php');
+require_once('logincheck.php');
+if(!isset($_SESSION['user']))
+{
+   $_SESSION['no-login-message']="Please log in to access Menu ";
+   header('location:login.php');
+}
+    $user = $_SESSION['user'];
+    $getuser_ava = $sql->query('SELECT image from users WHERE ID = '.$user.'');
+    $ava = $getuser_ava->fetch();
     $display = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
     FROM transaction T JOIN users U ON U.ID = T.sellerid
     JOIN users U1 ON U1.ID = T.buyerid
@@ -63,8 +71,8 @@ require_once('config_sql.php');
             <div class = "header"> 
                 <div style = "justify-content: flex-start" class = "container">
                     <div class = "page_ava">
-                        <img src = "../img/test_img.jpg" alt = "market_pic" class = "page_symbol">
-                    </div>
+                        <img src="../img/avatar-1.jpg" alt = "market_pic" class = "page_symbol">
+                        </div>
                     <div class = "Name" style= "text-align: center">
                         <p style = "vertical: center">Name of the market</p>
                     </div>
@@ -72,9 +80,11 @@ require_once('config_sql.php');
                 <div>
                     <nav class = "menu">
                     <ul>
-                        <a href = "#"><li> Home </li></a>
-                        <a href = "#"><li> Sell product </li></a>
-                        <a href = "#"><li> Account </li></a>
+                        <a href = "../index.php"><li> Home for user </li></a>
+                        <a href = "admin.php"><li> Admin Home </li></a>                       
+                        <a href = "selling_products"><li> Sell product </li></a>
+                        <a href = "account.php"><li> Account </li></a>
+                        <a href="logout.php"><li>Log out</li></a>
                     </ul>
                     </nav>
                 </div>
@@ -82,12 +92,14 @@ require_once('config_sql.php');
                     <div id = "User_name">
                         <p><i class="fas fa-caret-down"></i> name</p>
                         <div class = "More_info_name">
-                        <a href = "#">Account</a>
-                        <a href = "#">Past transaction</a>
+                        <a href = "account.php">Account</a>
+                        <a href = "pastTransactions.php">Past transaction</a>
                         </div>
                     </div>
                     <div>
-                        <img src = "../img/avatar-1.jpg" alt = "avatar" class = "profile_pic" >
+                    <?php
+                        echo('<img src="data:image/jpeg;base64,'.base64_encode( $ava['image'] ).'"  alt = "avatar" class = "profile_pic">');
+                    ?>
                     </div>
                 </div>
             </div>
