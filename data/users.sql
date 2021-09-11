@@ -48,7 +48,6 @@ CREATE TABLE `users` (
 --
 --for blob data )please choose a random file as your avatar
 INSERT INTO `users` (`firstname`, `lastname`, `username`, `phonenumber`, `email`, `password`, `ID`, `address`, `address`, `country`, `branch`, `balance`) VALUES
-('admin', 'The', 'adminv1', '')
 ('Dang Huy', 'Nguyen', 'darkdraken', '0903210302', 'anhmeochidang@gmail.com', 'b11d834ec73ef531b33cf30103232e9e8e7e3398', 12341245, '702 Nguyen Van Linh, Tan Hung, Quan 7', 'vietnam', 2, 350000000),
 ('Sang', 'Nguyen', 'darkdraken123', '0903210303', 'darkdraken47@gmail.com', 'danghuy0505', 2147483647, 'Handi Resco Building, 521 Kim Ma, Ngoc Khanh, Ba Đinh', 'Vietnam', 1, 400000000);
 
