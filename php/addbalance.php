@@ -60,7 +60,8 @@ if(!isset($_SESSION['user']))
                 <div>
                     <nav class = "menu">
                     <ul>
-                        <a href = "../index.php"><li> Home </li></a>
+                    <a href = "../index.php"><li> Home for user </li></a>
+                        <a href = "admin.php"><li> Admin Home </li></a>     
                         <a href = "selling_products"><li> Sell product </li></a>
                         <a href = "account.php"><li> Account </li></a>
                         <a href="logout.php"><li>Log out</li></a>

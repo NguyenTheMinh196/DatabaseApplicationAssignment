@@ -1,2 +1,0 @@
-input the users.sql to your php hoac app chay sql. 
-co the thay doi ten database theo ten cua database cua tui may ben trong config.php. 
