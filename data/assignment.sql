@@ -27,7 +27,7 @@ CREATE TABLE `product` (
   PRIMARY KEY(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 SET time_zone = '+07:00'
-INSERT INTO `product` (`name`, `minimumprice`, `closingtime`, `sellerid`, `buyerid`, `bidplaced`, `status`) VALUES
+INSERT INTO `product` (`name`, `price`, `closingtime`, `sellerid`, `buyerid`, `bidplaced`, `status`) VALUES
 ("rolex", 15000000, '2021-08-31T20:12:000', 12341245 , 2147483647, 1,"sold"),
 ("drone", 3000000, '2021-09-02T20:12:000', 2147483647, 12341245, 2,"sold"),
 ("Honeypot", 150000, '2021-10-23T22:34:000', 12341245, 2147483647, 1,"sold"),
@@ -94,19 +94,19 @@ BEGIN
         SELECT buyerid, price INTO currentproductbuyerid, productprice FROM transaction WHERE id = productID;
 		IF  currentproductbuyerid = userID THEN
 			UPDATE users SET balance =(balance + productprice - bidprice) WHERE ID = userID;
-            UPDATE product SET minimumprice = bidprice, buyerid = userID, bidplaced = bidplaced + 1 WHERE id = productID;
+            UPDATE product SET price = bidprice, buyerid = userID, bidplaced = bidplaced + 1 WHERE id = productID;
             
             COMMIT;
 		ELSEIF (currentproductbuyerid = NULL) THEN
 				UPDATE users SET balance = (balance - bidprice) WHERE ID = userID;
-            	UPDATE product SET minimumprice = bidprice, buyerid = userID, bidplaced = bidplaced+1 WHERE id = productID;
+            	UPDATE product SET price = bidprice, buyerid = userID, bidplaced = bidplaced+1 WHERE id = productID;
                 
             	COMMIT;
 
             ELSE
             	UPDATE users SET balance = (balance - bidprice) WHERE ID = userID;
             	UPDATE users SET balance = (balance + productprice) WHERE ID = currentproductbuyerid;
-            	UPDATE product SET minimumprice = bidprice, buyerid = userID, bidplaced = bidplaced +1 WHERE id = productID;
+            	UPDATE product SET price = bidprice, buyerid = userID, bidplaced = bidplaced +1 WHERE id = productID;
            		
 					COMMIT;
             END IF;
@@ -114,7 +114,7 @@ END $$
 DELIMITER ;
 -- create view transaction
 CREATE VIEW TRANSACTION AS
-SELECT id, name, closingtime, minimumprice AS price, sellerid, buyerid, status FROM product P;
+SELECT id, name, closingtime, price AS price, sellerid, buyerid, status FROM product P;
 -- create procedure trade
 DELIMITER $$
 CREATE PROCEDURE trade (IN productID INT)
@@ -123,7 +123,7 @@ BEGIN
     DECLARE productprice INT;
 	DECLARE currentsellerid INT;
 	START TRANSACTION;
-        SELECT bidplaced, minimumprice, sellerid INTO bidplaced, productprice, currentsellerid FROM product WHERE id = productID;
+        SELECT bidplaced, price, sellerid INTO bidplaced, productprice, currentsellerid FROM product WHERE id = productID;
         IF (bidplaced = NULL) THEN
 			  UPDATE product SET status = "canceled" WHERE id = productID;
             COMMIT;
@@ -133,11 +133,18 @@ BEGIN
             COMMIT;
 		
         END IF;
-END $$
+END $$;
+
 DELIMITER ;
+
 -- create trigger
 DELIMITER $$
-create trigger check_minimumprice before update on product FOR EACH ROW begin IF OLD.minimumprice >= NEW.minimumprice THEN SIGNAL SQLSTATE '45000' set message_text = "the new bid price must be higher than the minimum price"; END IF; END $$
+CREATE TRIGGER check_price BEFORE UPDATE ON product 
+FOR EACH ROW 
+BEGIN
+IF OLD.price >= NEW.price THEN SIGNAL SQLSTATE '45000' set message_text = "the new bid price must be higher than the minimum price"; 
+END IF; 
+END $$
 DELIMITER ;
 -- cancel transaction
 DELIMITER $$

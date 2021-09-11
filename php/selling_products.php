@@ -2,33 +2,53 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title>Bidme - Online Bidding Platform</title>
-        <link rel="stylesheet" href="../css/bid.module.css">
-        
+    <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sell products</title>
+  <!-- Link CSS -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/index.module.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" />
     </head>
     
     <body>
-        <div class="header">
-        <div class="container">
-            <div class="navbar">
-                <div class="logo">
-                    <!-- <img src="/Users/ADMIN/Desktop/picture/-1591253249203679369585.jpg" width="105px"> -->
+    <header>
+        <div>
+            <!--header  (Name of the market)-->
+            <div class = "header"> 
+                <div style = "justify-content: flex-start" class = "container">
+                    <div class = "page_ava">
+                        <img src="img/avatar-1.jpg" alt = "market_pic" class = "page_symbol">
+                        </div>
+                    <div class = "Name" style= "text-align: center">
+                        <p style = "vertical: center">Name of the market</p>
+                    </div>
                 </div>
-                <nav>
+                <div>
+                    <nav class = "menu">
                     <ul>
-                        <li><a href="">HOME</a></li>
-                        <li><a href="">PRODUCTS</a></li>
-                        <li><a href="">ABOUT</a></li>
-                        <li><a href="">CONTACT</a></li>
-                        <li><a href="">ACCOUNT</a></li>
-
+                        <a href = "/DatabaseApplicationAssignment/index.php"><li> Home </li></a>
+                        <a href = "selling_products.php"><li> Sell product </li></a>
+                        <a href = "account.php"><li> Account </li></a>
+                        <a href="logout.php"><li>Log out</li></a>
                     </ul>
-                </nav>
-                <!-- <img src="/Users/ADMIN/Desktop/picture/pngtree-shopping-basket-line-icon-vector-png-image_1744039.jpg" width="30px" height="30px"> -->
+                    </nav>
+                </div>
+                <div style = "justify-content: flex-end" class = "container">
+                    <div id = "User_name">
+                        <p><i class="fas fa-caret-down"></i> name</p>
+                        <div class = "More_info_name">
+                        <a href = "php/account.php">Account</a>
+                        <a href = "php/pastTransactions.php">Past transaction</a>
+                        </div>
+                    </div>
+                
+                </div>
             </div>
+            <!--Nav bar--> 
         </div>
-    </div>
+    </header>
     <!-- sell the product part -->
     <div id = "boom">
         <form action="sell.php" method="post" class = "input" id = "form">
@@ -36,7 +56,7 @@
             <label for = "product_name">Product Name:</label>
             <input type = "text" name = "name"  id = "product_name"> <br>
             <label for = "opening_price">Opening price:</label>
-            <input type = "number" name = "minimum_price" id = "minimum_price"><br>
+            <input type = "number" name = "price" id = "price"><br>
             <label for = "closing_date">Closing day:</label>
             <input type = "Date" name="closing_date" value = "<?php echo date("Y-m-d") ?>"id = "closing_date"><br>
             <label for = "closing_hour">Closing Hour:</label>
@@ -66,9 +86,7 @@
         <div class = "social_media_section">
             <div class="social_buttons"> <a href=""><i class="fab fa-instagram circle-icon"></i></a> <a href=""><i class="fab fa-facebook circle-icon"></i></a> <a href=""><i class="fab fa-linkedin-in circle-icon"></i></a> <a href=""><i class="fab fa-twitter circle-icon"></i></a> </div>
         </div>
-        <div style = "padding-top: 10px;">
-            <img src = "../img/test_img.jpg" alt = "market_pic" class = "page_symbol">
-        </div>
+
         <div style = "border-left: 2px solid gray; text-align:center;padding-top: 10px;" >
             copyright by ...
 

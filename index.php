@@ -12,24 +12,24 @@ require_once('php/config_sql.php');
     $ava = $getuser_ava->fetch();
     
 
-    $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = "not sold";');
+    $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = "not sold";');
 
     if(isset($_POST['search'])){
         $product_name 		= $_POST['name_search'];
-        $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%" AND P.status = "not sold";');
+        $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%" AND P.status = "not sold";');
 
     };
     if(isset($_POST['sort'])){
         $type 		= $_POST['sort_column_type'];
         $column_name 		= $_POST['sort_column_name'];
         if($column_name == "closing_time"){
-            $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.closingtime '.$type.' AND P.status = "not sold";');
+            $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.closingtime '.$type.' AND P.status = "not sold";');
         }
         elseif($column_name == "current_bid_price"){
-            $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.minimumprice '.$type.' AND P.status = "not sold";');
+            $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.price '.$type.' AND P.status = "not sold";');
         }
         elseif($column_name == "the_number_of_bids_placed"){
-            $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.bidplaced '.$type.' AND P.status = "not sold";');
+            $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.bidplaced '.$type.' AND P.status = "not sold";');
 
         }
     };
@@ -66,7 +66,7 @@ require_once('php/config_sql.php');
                     <nav class = "menu">
                     <ul>
                         <a href = "index.php"><li> Home </li></a>
-                        <a href = "php/selling_products"><li> Sell product </li></a>
+                        <a href = "php/selling_products.php"><li> Sell product </li></a>
                         <a href = "php/account.php"><li> Account </li></a>
                         <a href="php/logout.php"><li>Log out</li></a>
                     </ul>
@@ -159,7 +159,7 @@ require_once('php/config_sql.php');
                     echo($row['closingtime']);
                     echo('</div>');
                     echo('<div class = "current_highest_bid section product">');
-                    echo($row['minimumprice']);
+                    echo($row['price']);
                     echo('</div>');
                     echo('<div class = "number_of_bids section product">');
                     echo($row['bidplaced']);
