@@ -1,5 +1,6 @@
 <?php
 session_Start();
+require_once('php/trade.php');
 if(!isset($_SESSION['user']))
 {
    $_SESSION['no-login-message']="Please log in to access Menu ";
@@ -9,6 +10,7 @@ require_once('php/config_sql.php');
     $user = $_SESSION['user'];
     $getuser_ava = $sql->query('SELECT image from users WHERE ID = '.$user.'');
     $ava = $getuser_ava->fetch();
+    
 
     $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = "not sold";');
 
@@ -212,13 +214,13 @@ require_once('php/config_sql.php');
         <!-- footer menu -->
         <div class = "footer_menu"> 
             <div class= "">
-               <a href = "#">home</a>
+               <a href = "index.php">home</a>
             </div>
             <div>
-                <a href = "#">account </a>
+                <a href = "php/account.php">account </a>
             </div>
             <div>
-                <a href = "#">Sell product</a>
+                <a href = "php/selling_products.php">Sell product</a>
             </div>
         </div>
         <!-- footer social media section -->

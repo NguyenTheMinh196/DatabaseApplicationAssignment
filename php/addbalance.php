@@ -23,10 +23,10 @@ if(!isset($_SESSION['user']))
             $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY U.username '.$type.';');
         }
         elseif($column_name == "country"){
-            $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY P.country '.$type.';');
+            $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY U.country '.$type.';');
         }
         elseif($column_name == "branch"){
-            $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY P.branch '.$type.';');
+            $display = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch FROM users U ORDER BY U.branch '.$type.';');
         }
     };
     
@@ -219,13 +219,13 @@ if(!isset($_SESSION['user']))
         <!-- footer menu -->
         <div class = "footer_menu"> 
             <div class= "">
-               <a href = "#">home</a>
+               <a href = "../index.php">home</a>
             </div>
             <div>
-                <a href = "#">account </a>
+                <a href = "account.php">account </a>
             </div>
             <div>
-                <a href = "#">Sell product</a>
+                <a href = "selling_products.php">Sell product</a>
             </div>
         </div>
         <!-- footer social media section -->
@@ -233,7 +233,7 @@ if(!isset($_SESSION['user']))
             <div class="social_buttons"> <a href=""><i class="fab fa-instagram circle-icon"></i></a> <a href=""><i class="fab fa-facebook circle-icon"></i></a> <a href=""><i class="fab fa-linkedin-in circle-icon"></i></a> <a href=""><i class="fab fa-twitter circle-icon"></i></a> </div>
         </div>
         <div style = "padding-top: 10px;">
-            <img src = "img/test_img.jpg" alt = "market_pic" class = "page_symbol">
+            <img src = "../img/test_img.jpg" alt = "market_pic" class = "page_symbol">
         </div>
         <div style = "border-left: 2px solid gray; text-align:center;padding-top: 10px;" >
             copyright by ...

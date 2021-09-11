@@ -120,17 +120,18 @@ DELIMITER $$
 CREATE PROCEDURE trade (IN productID INT)
 BEGIN
 	DECLARE bidplaced INT;
-    	DECLARE productprice INT;
+    DECLARE productprice INT;
 	DECLARE currentsellerid INT;
 	START TRANSACTION;
-        SELECT bidplaced, price, sellerid INTO bidplaced, productprice, currentsellerid FROM product WHERE id = productID;
-		IF  bidplaced IS NOT NULL THEN
-			UPDATE users SET balance = balance + productprice WHERE ID = currentsellerid;
-			UPDATE product SET status = "sold" WHERE id = productID;
+        SELECT bidplaced, minimumprice, sellerid INTO bidplaced, productprice, currentsellerid FROM product WHERE id = productID;
+        IF (bidplaced = NULL) THEN
+			  UPDATE product SET status = "canceled" WHERE id = productID;
             COMMIT;
-		ELSEIF (bidplaced = NULL) THEN
-			UPDATE product SET status = "canceled" WHERE id = productID;
+		    ELSE 
+			  UPDATE users SET balance = balance + productprice WHERE ID = currentsellerid;
+			  UPDATE product SET status = "sold" WHERE id = productID;
             COMMIT;
+		
         END IF;
 END $$
 DELIMITER ;

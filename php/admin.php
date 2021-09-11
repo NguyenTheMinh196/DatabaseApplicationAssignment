@@ -1,5 +1,6 @@
 <?php 
 require_once('logincheck.php');
+require_once('trade.php');
 if(!isset($_SESSION['user']))
 {
    $_SESSION['no-login-message']="Please log in to access Menu ";
@@ -70,17 +71,33 @@ if(!isset($_SESSION['user']))
   <li><a href="updatebalance.php">See Balance</a></li>
 
 </ul>
+<!-- footer -->
 <footer>
-
+        <!-- footer menu -->
+        <div class = "footer_menu"> 
+            <div class= "">
+               <a href = "../index.php">home</a>
+            </div>
+            <div>
+                <a href = "account.php">account </a>
+            </div>
+            <div>
+                <a href = "selling_products.php">Sell product</a>
+            </div>
+        </div>
         <!-- footer social media section -->
         <div class = "social_media_section">
             <div class="social_buttons"> <a href=""><i class="fab fa-instagram circle-icon"></i></a> <a href=""><i class="fab fa-facebook circle-icon"></i></a> <a href=""><i class="fab fa-linkedin-in circle-icon"></i></a> <a href=""><i class="fab fa-twitter circle-icon"></i></a> </div>
+        </div>
+        <div style = "padding-top: 10px;">
+            <img src = "../img/test_img.jpg" alt = "market_pic" class = "page_symbol">
         </div>
         <div style = "border-left: 2px solid gray; text-align:center;padding-top: 10px;" >
             copyright by ...
 
         </div>
     </footer>
+    <!-- end footer -->
 </body>
 
 
