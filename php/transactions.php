@@ -31,7 +31,7 @@ require_once('config_sql.php');
         } else if($status="sold") {
             $product_sql = $sql->prepare('UPDATE users SET balance=balance+"'.$price.'" WHERE id="'.$buyerid.'";');
             $product_sql->execute();
-            $product_sql = $sql->prepare('UPDATE users SET balance=balance-"'.$price.'" WHERE id="'.$buyerid.'";');
+            $product_sql = $sql->prepare('UPDATE users SET balance=balance-"'.$price.'" WHERE id="'.$sellerid.'";');
             $product_sql->execute();
         }
     
@@ -113,7 +113,7 @@ require_once('config_sql.php');
         <form class="cancel" method ="post">
             <label for ="transaction_id">Transaction id:</label>
             <input type="number" name="id" value=null>
-            <button type="submit" name="cancel" class="submit_button">Cancel</button>?
+            <button type="submit" name="cancel" class="submit_button">Cancel</button>
         </form>
         </div>
         

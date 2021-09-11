@@ -1,6 +1,13 @@
 <?php
-include('php/userlogincheck.php') ;
+session_start();
+if(!isset($_SESSION['user']))
+{
+   $_SESSION['no-login-message']="Please log in to access Menu ";
+   header('location:login.php');
+}
 require_once('php/config_sql.php');
+    $user = $_SESSION['user'];
+    
     $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = "not sold";');
 
     if(isset($_POST['search'])){
@@ -22,6 +29,7 @@ require_once('php/config_sql.php');
 
         }
     };
+
     
 ?>
 <!DOCTYPE html>
@@ -53,11 +61,11 @@ require_once('php/config_sql.php');
                 <div>
                     <nav class = "menu">
                     <ul>
-                        <a href = "#"><li> Home </li></a>
-                        <a href = "#"><li> Sell product </li></a>
-                        <a href = "#"><li> Account </li></a>
-                        
-                        <li><a href="php/logout_user.php">Log out</a></li>
+                        <a href = "index.php"><li> Home </li></a>
+                        <a href = "php/selling_products"><li> Sell product </li></a>
+                        <a href = "php/account.php"><li> Account </li></a>
+            
+                        <a href="php/logout.php"><li>Log out</li></a>
            
                     </ul>
                     </nav>

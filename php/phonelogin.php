@@ -45,24 +45,33 @@
 </html>
 
 <?php
+
 if(isset($_POST['submit']))
 {
-    $phonenumber=$_POST['phonenumber'];
+    $email=$_POST['phonenumber'];
     $password=$_POST['password'];
 
-    $sql="SELECT * FROM users WHERE phonenumber='$phonenumber' AND password='$password'";
-    $res= mysqli_query ($conn ,$sql);
+    $query='SELECT id FROM users WHERE phonenumber="'.$phongnumber.'" AND password="'.$password.';"';
+    $res= mysqli_query ($sql ,$query);
     $count = mysqli_num_rows($res);
+    $user = $res->fetch();
 
 if($count==1)
 {
-    $_SESSION['login']="Login Successfully";
-    $_SESSION['user']= $phonenumber;
-    header('location:'.SITEURL.'index.php');
+    if($user['id'] != 1){
+        $_SESSION['login']="Login Successfully";
+        $_SESSION['user']= $user['id'];
+        header('location:../index.php');
+    }
+    elseif($user['id'] == 1){
+        $_SESSION['login']="Login Successfully";
+        $_SESSION['user']= $user['id'];
+        header('location:admin.php');
+    }
 }
 else {
     $_SESSION['login']="Username and Password did not match";
-    header('location:'.SITEURL.'login.php');
+    header('location:login.php');
 }
 
 }
