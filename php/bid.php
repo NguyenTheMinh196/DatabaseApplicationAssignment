@@ -17,7 +17,7 @@ if(!isset($_SESSION['user']))
        try{
         $bidding_price 		= $_POST['bidding_price'];
         $bid = $sql->query('CALL bid('. (int)$user . ', '.(int)$id_product .', '.(int)$bidding_price.')');
-        $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname, U.balance FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
+        $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname, U.balance FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
         $product_data = $display->fetch();
         echo('<div style = "position: absolute;
     left: 50%;
@@ -33,7 +33,7 @@ if(!isset($_SESSION['user']))
        }
 }
     else{
-    $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname, U.balance, P.buyerid FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
+    $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname, U.balance, P.buyerid FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
     $product_data = $display->fetch();
     }
     $user_info = $sql->query('SELECT balance FROM users WHERE ID = '.$user.';');
@@ -133,12 +133,12 @@ if(!isset($_SESSION['user']))
         <div class="col-4">
             <h1>Bidding place</h1>
             <?php
-            echo('<h2>Minimum Bidding price:'.  $product_data['minimumprice'] . 'VND</h2>');
+            echo('<h2>Bidding price:'.  $product_data['price'] . 'VND</h2>');
             ?>
             <form method = "post">
                 <label for= "bidding_price"></label>
                 <?php
-                echo('<input type = "number" name = "bidding_price" min = "'. (int)$product_data['minimumprice'] + 1 .'" max = "'.$user_balance['balance'].'" id = "bidding_price">');
+                echo('<input type = "number" name = "bidding_price" min = "'. (int)$product_data['price'] + 1 .'" max = "'.$user_balance['balance'].'" id = "bidding_price">');
                 ?>
                 <input type = "submit" value = "bid" name = "bid">
                 

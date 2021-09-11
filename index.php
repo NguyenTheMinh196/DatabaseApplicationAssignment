@@ -12,24 +12,24 @@ require_once('php/config_sql.php');
     $ava = $getuser_ava->fetch();
     
 
-    $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = "not sold";');
+    $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.status = "not sold";');
 
     if(isset($_POST['search'])){
         $product_name 		= $_POST['name_search'];
-        $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%" AND P.status = "not sold";');
+        $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid WHERE P.name Like "%' .$product_name . '%" AND P.status = "not sold";');
 
     };
     if(isset($_POST['sort'])){
         $type 		= $_POST['sort_column_type'];
         $column_name 		= $_POST['sort_column_name'];
         if($column_name == "closing_time"){
-            $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.closingtime '.$type.' AND P.status = "not sold";');
+            $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.closingtime '.$type.' AND P.status = "not sold";');
         }
         elseif($column_name == "current_bid_price"){
-            $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.minimumprice '.$type.' AND P.status = "not sold";');
+            $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.price '.$type.' AND P.status = "not sold";');
         }
         elseif($column_name == "the_number_of_bids_placed"){
-            $display = $sql->query('SELECT P.name, P.id, P.minimumprice, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.bidplaced '.$type.' AND P.status = "not sold";');
+            $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname FROM product P join users U on U.ID = P.sellerid ORDER BY P.bidplaced '.$type.' AND P.status = "not sold";');
 
         }
     };
@@ -159,7 +159,7 @@ require_once('php/config_sql.php');
                     echo($row['closingtime']);
                     echo('</div>');
                     echo('<div class = "current_highest_bid section product">');
-                    echo($row['minimumprice']);
+                    echo($row['price']);
                     echo('</div>');
                     echo('<div class = "number_of_bids section product">');
                     echo($row['bidplaced']);
@@ -167,43 +167,8 @@ require_once('php/config_sql.php');
                     echo('</div>');
                     echo('</a>');
                 }
-                //     }
-                // foreach ($data as $product){
-                //     echo('<div class = "oneproduct">');
-                //     echo('<div class = "product_name section product">');
-                //     echo($product->name);
-                //     echo('</div>');
-                //     echo('<div class = "seller section product">');
-                //     echo($product->seller_id);
-                //     echo('</div>');
-                //     echo('<div class = "closing_time section product">');
-                //     echo($product->closingDate->toDateTime()->format('Y/m/d'));
-                //     echo('</div>');
-                //     echo('<div class = "current_highest_bid section product">');
-                //     echo($product->openingprice);
-                //     echo('</div>');
-                //     echo('<div class = "number_of_bids section product">');
-                //     echo($product->number_of_bid);
-                //     echo('</div>');
-                //     echo('</div>');
-                // }
                 ?>
-                <!-- product 2
-                <div class = "product_name section product">
-                    Product's name
-                </div>
-                <div class = "seller section product">
-                    Seller
-                </div>
-                <div class = "closing_time section product">
-                    Closing time
-                </div>
-                <div class = "current_highest_bid section product">
-                    Current highest bid
-                </div>
-                <div class = "number_of_bids section product">
-                    Number of bids
-                </div> -->
+                
             </div> 
             
         </div>

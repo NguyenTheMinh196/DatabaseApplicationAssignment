@@ -4,7 +4,7 @@ require_once('config_mongodb.php');
 require_once('config_sql.php');
 $seller_id = $_SESSION['user'];
 
-$product_sql = $sql->prepare('INSERT INTO product(name, minimumprice, closingtime, sellerid, bidplaced, status) VALUES(?, ?, ?, ?, 0, "not sold")');
+$product_sql = $sql->prepare('INSERT INTO product(name, price, closingtime, sellerid, bidplaced, status) VALUES(?, ?, ?, ?, 0, "not sold")');
 
 if(isset($_POST['sell'])){
     $name=$_POST['name'];
@@ -30,5 +30,4 @@ if(isset($_POST['sell'])){
         $collection->insertOne( $document );
     }
 }
-echo "New product added!";
 ?>
