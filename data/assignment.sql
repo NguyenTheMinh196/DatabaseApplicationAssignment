@@ -18,7 +18,7 @@ SET time_zone = "+07:00";
 CREATE TABLE `product` (
   `name` varchar(30) NOT NULL,
   `id` int(255) NOT NULL AUTO_INCREMENT,
-  `minimumprice` int(20) NOT NULL,
+  `price` int(20) NOT NULL,
   `closingtime` DATETIME NOT NULL,
   `sellerid` int(100) NOT NULL,
   `buyerid` int(100),
@@ -119,9 +119,8 @@ SELECT id, name, closingtime, minimumprice AS price, sellerid, buyerid, status F
 DELIMITER $$
 CREATE PROCEDURE trade (IN productID INT)
 BEGIN
-	BEGIN
 	DECLARE bidplaced INT;
-    DECLARE productprice INT;
+    	DECLARE productprice INT;
 	DECLARE currentsellerid INT;
 	START TRANSACTION;
         SELECT bidplaced, price, sellerid INTO bidplaced, productprice, currentsellerid FROM product WHERE id = productID;
@@ -141,22 +140,22 @@ create trigger check_minimumprice before update on product FOR EACH ROW begin IF
 DELIMITER ;
 -- cancel transaction
 DELIMITER $$
-    CREATE PROCEDURE refund (IN transactionID INT)
-        BEGIN
+CREATE PROCEDURE refund (IN productID INT)
+BEGIN
         DECLARE productbuyerid INT;
         DECLARE productsellerid INT;
         DECLARE productprice INT;
-        DECLARE productstatus varchar;
+        DECLARE productstatus varchar(50);
         START TRANSACTION;
-        	SELECT sellerid, buyerid, minimumprice, status INTO productsellerid, productbuyerid, productprice, productstatus FROM product WHERE id = transactionID;
+        SELECT price, status, sellerid, buyerid INTO productprice, productstatus, productsellerid, productbuyerid FROM product WHERE id=productID;
         IF (productstatus="sold") THEN
         	UPDATE users SET balance  = balance + productprice WHERE ID=productbuyerid;
         	UPDATE users SET balance  = balance - productprice WHERE ID=productsellerid;
-          UPDATE product SET status = "canceled" WHERE id= transactionID;
+          	UPDATE product SET status = "canceled" WHERE id= productID;
         	COMMIT;
         ELSEIF (productstatus="not sold") THEN
         	UPDATE users SET balance  = balance + productprice WHERE ID=productbuyerid;
-          UPDATE product SET status = "canceled" WHERE id= transactionID; 
+          UPDATE product SET status = "canceled" WHERE id= productID; 
         	COMMIT;
         END IF;
                 
