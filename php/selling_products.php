@@ -71,8 +71,8 @@ if(isset($_POST['sell'])){
                     <div id = "User_name">
                         <p><i class="fas fa-caret-down"></i> name</p>
                         <div class = "More_info_name">
-                        <a href = "php/account.php">Account</a>
-                        <a href = "php/pastTransactions.php">Past transaction</a>
+                        <a href = "account.php">Account</a>
+                        <a href = "pastTransactions.php">Past transaction</a>
                         </div>
                     </div>
                 
