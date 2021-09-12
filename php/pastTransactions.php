@@ -57,7 +57,7 @@ WHERE (T.sellerid ="'.$user.'") AND (T.status = "not sold");');
                 <div>
                     <nav class = "menu">
                     <ul>
-                        <a href = "../index.php"><li> Home </li></a>
+                    <a href = "/DatabaseApplicationAssignment/index.php"><li> Home </li></a>
                         <a href = "selling_products"><li> Sell product </li></a>
                         <a href = "account.php"><li> Account </li></a>
                         <a href="logout.php"><li>Log out</li></a>

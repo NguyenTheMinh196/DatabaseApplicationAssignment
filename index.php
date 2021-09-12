@@ -66,7 +66,7 @@ require_once('php/config_sql.php');
                     <nav class = "menu">
                     <ul>
                         <a href = "index.php"><li> Home </li></a>
-                        <a href = "php/selling_products"><li> Sell product </li></a>
+                        <a href = "php/selling_products.php"><li> Sell product </li></a>
                         <a href = "php/account.php"><li> Account </li></a>
                         <a href="php/logout.php"><li>Log out</li></a>
                     </ul>

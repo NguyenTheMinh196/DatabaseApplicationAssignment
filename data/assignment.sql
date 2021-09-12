@@ -136,8 +136,10 @@ BEGIN
             COMMIT;
 		
         END IF;
-END $$
+END $$;
+
 DELIMITER ;
+
 -- create trigger
 DELIMITER $$
 create trigger check_price before update on product FOR EACH ROW begin IF OLD.price >= NEW.price THEN SIGNAL SQLSTATE '45000' set message_text = "the new bid price must be higher than the price"; END IF; END $$
@@ -148,6 +150,7 @@ begin
   if new.balance < 0 then
     signal sqlstate '45000' set message_text = 'Balance must not be lower than 0';
   END if;
+
 END $$
 DELIMITER ;
 -- cancel transaction
