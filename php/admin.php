@@ -31,7 +31,7 @@ if(!isset($_SESSION['user']))
             <div class = "header"> 
                 <div style = "justify-content: flex-start" class = "container">
                     <div class = "page_ava">
-                        <img src="../img/avatar-1.jpg" alt = "market_pic" class = "page_symbol">
+                        <img src="../img/test_img.jpg" alt = "market_pic" class = "page_symbol">
                         </div>
                     <div class = "Name" style= "text-align: center">
                         <p style = "vertical: center">Name of the market</p>
@@ -68,7 +68,7 @@ if(!isset($_SESSION['user']))
 <h1>Welcome Admin</h1>
 <li><a href="logout.php">Log out</a></li>
   <li><a href="transactions.php">See Transaction</a></li>
-  <li><a href="updatebalance.php">See Balance</a></li>
+  <li><a href="addbalance.php">See Balance</a></li>
 
 </ul>
 <!-- footer -->
