@@ -44,7 +44,7 @@ CREATE TABLE `users` (
   `phonenumber` varchar(10) NOT NULL,
   `email` varchar(30) NOT NULL,
   `password` varchar(50) NOT NULL,
-  `ID` int(100) NOT NULL AUTO_INCREMENT,
+  `ID` int(100) NOT NULL AUTO_INCREMENT PRIMARY KEY,
   `address` varchar(60),
   `country` varchar(15),
   `image` longblob NOT NULL,
@@ -53,7 +53,6 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`ID`),
   ADD UNIQUE KEY `phone` (`phonenumber`),
   ADD UNIQUE KEY `email` (`email`);
 --
@@ -122,12 +121,12 @@ SELECT id, name, closingtime, price AS price, sellerid, buyerid, status FROM pro
 DELIMITER $$
 CREATE PROCEDURE trade (IN productID INT)
 BEGIN
-	DECLARE bidplaced INT;
+	DECLARE bidplaced_1 INT;
     DECLARE productprice INT;
 	DECLARE currentsellerid INT;
 	START TRANSACTION;
-        SELECT bidplaced, price, sellerid INTO bidplaced, productprice, currentsellerid FROM product WHERE id = productID;
-        IF (bidplaced = NULL) THEN
+        SELECT bidplaced, price, sellerid INTO bidplaced_1, productprice, currentsellerid FROM product WHERE id = productID;
+        IF (bidplaced_1 = 0) THEN
 			  UPDATE product SET status = "canceled" WHERE id = productID;
             COMMIT;
 		    ELSE 

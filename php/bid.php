@@ -19,14 +19,7 @@ if(!isset($_SESSION['user']))
         $bid = $sql->query('CALL bid('. (int)$user . ', '.(int)$id_product .', '.(int)$bidding_price.')');
         $display = $sql->query('SELECT P.name, P.id, P.price, P.closingtime, P.bidplaced, U.firstname, U.balance FROM product P join users U on U.ID = P.sellerid WHERE P.id =  '.$id_product.';');
         $product_data = $display->fetch();
-        echo('<div style = "position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border: 5px solid #FFFF00;
-    padding: 10px;">
-        You have bid for the the product successfully
-    </div>');
+        
        }
        catch(PDOException $e){
         die("Error occurred:" . $e->getMessage());
