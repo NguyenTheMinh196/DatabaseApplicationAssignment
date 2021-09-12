@@ -24,27 +24,7 @@ if(!isset($_SESSION['user']))
     };
     if(isset($_POST['cancel'])){
         $id=$_POST['id'];
-
-        $display = $sql->query('SELECT id, buyerid, sellerid, price, status FROM transaction
-        WHERE id="'.$id.'";');
-        $table=$display->fetch(PDO::FETCH_BOTH);
-
-        $sellerid=$table['sellerid'];
-        $status=$table['status'];
-        $buyerid=$table['buyerid'];
-        $price=$table['price'];
-        if($status="not sold"){
-            $product_sql = $sql->prepare('UPDATE users SET balance=balance+"'.$price.'" WHERE id="'.$buyerid.'";');
-            $product_sql->execute();
-        } else if($status="sold") {
-            $product_sql = $sql->prepare('UPDATE users SET balance=balance+"'.$price.'" WHERE id="'.$buyerid.'";');
-            $product_sql->execute();
-            $product_sql = $sql->prepare('UPDATE users SET balance=balance-"'.$price.'" WHERE id="'.$sellerid.'";');
-            $product_sql->execute();
-        }
-    
-        $product_sql = $sql->prepare('UPDATE transaction SET status="canceled" WHERE id="'.$id.'";');
-            $product_sql->execute();
+        $cancel = $sql->query('CALL refund("'. $id .'")');
         $display = $sql->query('SELECT T.id, T.name, T.price ,T.closingtime, U.firstname AS Seller, U1.firstname AS Buyer, T.status 
         FROM transaction T JOIN users U ON U.ID = T.sellerid
         JOIN users U1 ON U1.ID = T.buyerid;');

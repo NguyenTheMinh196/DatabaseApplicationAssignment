@@ -8,7 +8,7 @@ $product_sql = $sql->prepare('INSERT INTO product(name, price, closingtime, sell
 
 if(isset($_POST['sell'])){
     $name=$_POST['name'];
-    $price=$_POST['minimum_price'];
+    $price=$_POST['price'];
     $date=$_POST['closing_date'];
     $hour = $_POST['closing_hour'];
     $minute = $_POST['closing_minute'];
