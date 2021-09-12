@@ -9,8 +9,5 @@ foreach($display as $product){
         $query = ('CALL trade('.(int)$product['id'].')');
         $bid = $sql->query($query);
     }
-    // echo($product['id']);
-    // print_r($new_date);
-    // print_r($now);
 
 }?>

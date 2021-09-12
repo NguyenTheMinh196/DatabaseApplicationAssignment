@@ -20,21 +20,8 @@ if(!isset($_SESSION['user']))
     $new_balance = $_POST['new_balance'];
     $status = $update->execute([$new_balance, $id]);
     $getuser = $sql->query('SELECT U.firstname, U.username, U.phonenumber, U.email, U.ID, U.country, U.branch, U.balance FROM users U WHERE U.ID = '.$id);
-    echo('<div style = "position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    border: 5px solid #FFFF00;
-    padding: 10px;">
-        You have updated the balance successfully
-    </div>');
-}
 
-    
-   // mysql query to Update data
-//    $query = "UPDATE `users` SET `balance`='".$balance." WHERE `id` = $id";
-   
-//    $result = mysqli_query($connect, $query);
+}
 
 ?>
 
